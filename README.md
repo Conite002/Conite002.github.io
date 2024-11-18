@@ -178,10 +178,10 @@ draft: true <---
 
 ## Required properties:
 
-- Title
+- Title 
 - Description
 - pubDate
-- heroImage (post cover)
+- heroImage (post cover) 
 - category (Choose a category from src/data/categories.ts)
 
 ## Optional properties:
