@@ -1,4 +1,4 @@
-# **Conite GBODOGBE's Blog** 🌟
+# **Conité GBODOGBE's Blog** 🌟
 
 ## **Hi there! 👋 Welcome to my blog.**
 
