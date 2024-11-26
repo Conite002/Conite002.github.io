@@ -2,37 +2,491 @@
 import ListCategories from '@/components/ListCategories'
 import ListPosts from '@/components/ListPosts'
 import TitlePage from '@/components/TitlePage'
+import TitleBanner from '@/components/TitleBanner'
 import BaseLayout from '@/layouts/BaseLayout'
 import { getPosts } from '@/utils'
 
 const MAX_POSTS = 5 // max number of posts to show on the home page
 const posts = await getPosts(MAX_POSTS)
+
+const CVInfo = {
+	name: 'D. S. Conité Gbodogbe',
+	title: 'Data Scientist',
+	email: 'conite.gbodogbe@um6p.ma',
+  	web: 'https://conite002.github.io/',
+  	linkedin: 'https://www.linkedin.com/in/d-s-conité-gbodogbe',
+  	about: 'Hi there! 👋 I’m Conité GBODOGBE, a passionate Data Scientist and AI enthusiast with a strong foundation in computer science and a love for solving complex problems. My journey in technology has been fueled by curiosity and a drive to turn data into actionable insights',
+	interests: [
+
+		['Natural Language Processing', 'Understanding, processing, and generating human language for applications like sentiment analysis, topic modeling, and text summarization.'],
+		['Reinforcement Learning', 'Training agents to make sequential decisions in an environment to maximize rewards.'],
+		['Computer Vision', 'Teaching machines to interpret and understand the visual world.'],
+		['Machine Learning in general', 'Building models that can learn from data to make predictions or decisions.'],
+		['Ethical AI', 'Ensuring that AI systems are fair, transparent, and accountable.'],
+		['Deep Learning', 'Understanding and building neural networks to solve complex problems'],
+		['Big Data', 'Working with large datasets that are too big to be handled by traditional data processing software.'],
+		['Cloud Computing', 'Using remote servers on the internet to store, manage, and process data.'],
+		
+	],
+	education :[
+		{
+			degree: "MSc in Data Science",
+			institution: "University Mohammed VI Polytechnic, Morocco",
+			duration: "2023",
+			image: "/assets/images/um6p_logo.jpeg"
+		},
+		{
+			degree: "MSc in Software Engineering",
+			institution: "Institute of Mathematical Sciences and Physics (IMSP), Benin",
+			duration: "2021",
+			image: "/assets/images/imsp_logo.png"
+		},
+		{
+			degree: "BSc in TIC (Information and Communication Technology)",
+			institution: "Institute of Mathematical Sciences and Physics (IMSP), Benin",
+			duration: "2020",
+			image: "/assets/images/imsp_logo.png"
+		},
+		{
+			degree: "Scientific Preparatory Program, Mathematics, Physics, and Engineering Sciences (MPSI)",
+			institution: "Institute of Mathematical Sciences and Physics (IMSP), Benin",
+			duration: "2017",
+			image: "/assets/images/imsp_logo.png"
+		},
+	],
+	certificates :[
+		{
+			degree: "Fundamentals of Accelerated Computing with CUDA Python",
+			institution: "NVIDIA",
+			duration: "Issued Apr 2024",
+			credential_id: "ks-lkvzFSTevAvqCspufpw",
+			image: "https://media.licdn.com/dms/image/C4D0BAQGnhZcqcHx5Ew/company-logo_100_100/0/1519856215226?e=1734566400&v=beta&t=aZCmlYWZ-uO4oL0HZjx_9p_kZDJ1cL5N5r7ICkNPSds",
+			share_link: "https://learn.nvidia.com/certificates?id=Oz_7Tx2lTxSyHnEl9kpl1g",
+			skills: [
+			"CUDA",
+			"Parallel Computing",
+			"GPU Acceleration"
+			]
+		},
+		{
+			degree: "Data Analytics Fundamentals",
+			institution: "IBM",
+			duration: "Issued May 2023",
+			credential_id: "DHC259KHTJ36",
+			image: "https://media.licdn.com/dms/image/C4D0BAQEME_K_K1L0Bw/company-logo_100_100/0/1602792644002?e=1734566400&v=beta&t=XId8Wx1nd2Mg5FbzMnVVRQtphljcxETwdvAnSPUj1Ig",
+			share_link: "https://www.coursera.org/account/accomplishments/verify/DHC259KHTJ36",
+			skills: [
+			"Data Analysis",
+			"Statistical Methods",
+			"Business Intelligence"
+			]
+		},
+		{
+			degree: "Business Intelligence Foundations",
+			institution: "Google",
+			duration: "Issued Jan 2023",
+			credential_id: "N/A",
+			image: "https://media.licdn.com/dms/image/C4D0BAQFDiRFDgxLjWw/company-logo_100_100/0/1519856215226?e=1734566400&v=beta&t=aGpp-YojmHZqkIQbwmYxnl8J1ZbzD0xzj2bwnWaQpq8",
+			share_link: "https://www.coursera.org/account/accomplishments/verify/DHC259KHTJ36",
+			skills: [
+			"Data Visualization",
+			"ETL Processes",
+			"Reporting Tools"
+			]
+		},
+		{
+			degree: "Data Analyst Program Certificate",
+			institution: "Africa TechUp Tour 2023",
+			duration: "Issued Aug 2023",
+			credential_id: "N/A",
+			image: "/assets/images/africa_techup_logo.jpeg",
+			share_link: "https://www.linkedin.com/in/d-s-conit%C3%A9-gbodogbe-219b8222a/details/certifications/1719825122686/single-media-viewer/?type=DOCUMENT&profileId=ACoAADl7erUB-4aj51ji7ARUS0jxxY2hldO6dY4",
+			skills: [
+			"Data Cleaning",
+			"Data Wrangling",
+			"Predictive Analytics"
+			]
+  		}
+	]
+
+}
 ---
 
-<BaseLayout title='Home'>
-	<TitlePage title='Blog Title' />
-	<ListCategories />
+<style>
+	@media (min-width: 992px) {
+	  .col-md-3 {
+		  width: 25%;
+	  }
+	}
+	@media (min-width: 992px) {
+	  .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
+		  float: left;
+	  }
+	}
+	@media (min-width: 768px) {
+	  .col-sm-4 {
+		  width: 33.33333333%;
+	  }
+	}
+	@media (min-width: 768px) {
+	  .col-sm-3 {
+		  width: 25%;
+	  }
+	}
+	@media (min-width: 768px) {
+	  .col-sm-9[data-astro-cid-j7pv25f6] {
+		  width: calc(100% - 25%);
+	  }
+	}
+	@media (min-width: 768px) {
+		.col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
+			float: left;
+		}
+	}
+	.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+		float: left;
+	}
+	.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+	.h4, h4 {
+		font-size: 18px;
+	}
+	.h4, .h5, .h6, h4, h5, h6 {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+		font-family: inherit;
+		font-weight: 500;
+		line-height: 1.1;
+		color: inherit;
+	}
+	.prose h1, h2, h3, h4, h5, h6 {
+		--tw-text-opacity: 1 !important;
+		color: rgb(39 39 42 / 1 !important) !important;
+	}
+	@media (min-width: 768px) {
+		.col-sm-8 {
+			width: 66.66666667%;
+		}
+	}
+	.row {
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+	.separator {
+	  font-weight: 300;
+	  font-size: 2rem;
+	  text-align: center;
+	  border-bottom: dashed 2px #CCCCCC;
+	  padding-bottom: 6px;
+	  margin-bottom: 11px;
+	}
+	mark {
+	  padding: 2px 4px;
+	  font-size: 90%;
+	  color: #fff;
+	  background-color: #333;
+	  border-radius: 3px;
+	  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+	  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+	}
+	mark_1 {
+	  padding: 2px 4px;
+	  font-size: 90%;
+	  color: #fff;
+	  background-color: #999090 !important; /*#333;*/
+	  border-radius: 3px;
+	  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+	  box-shadow: none !important;
+	}
+	.profile-img {
+	  width: 200px;
+	  height: 200px;
+	  margin: 0 auto;
+	  margin-bottom: 20px;
+	  display: block;
+	  border-radius: 100px;
+	  background-size: cover;
+	  background-position: center;
+	  background-repeat: repeat, no-repeat;
+	  -moz-box-shadow: inset 0 0 20px #636161;
+	  -webkit-box-shadow: inset 0 0 20px #636161;
+	  box-shadow: inset 0 0 20px #636161;
+	}
+	.list{
+	  list-style-type: circle;
+	  margin-left: 2em;
+	}
+	.me{
+	  align-items: center;
+	  display: flex;
+	  margin: 0 3em;
+	  text-align: center;
+	}
+	.layout {
+	  /*margin-top: 3rem;*/
+	  display: flex;
+	  flex-direction: row;
+	}
+	.education-table {
+	  margin: 20px 0;
+	  border-collapse: collapse;
+	  width: 100%;
+	}
+	.education-table table {
+	  width: 100%;
+	  border: 1px solid #ddd;
+	}
+	.education-table th, .education-table td {
+	  padding: 12px;
+	  text-align: left;
+	  border-bottom: 1px solid #ddd;
+	}
+	.education-table th {
+	  background-color: #f4f4f4;
+	  font-weight: bold;
+	}
+	.education-table tr:nth-child(even) {
+	  background-color: #f9f9f9;
+	}
+	.education-table tr:hover {
+	  background-color: #f1f1f1;
+	}
+	.h4_style {
+	  font-size: 1.5em;
+	  font-weight: bold;
+	  margin-top: 0;
+	  margin-bottom: 0;
+	}
+	.project {
+	  background-color: #ffffff; /*#*/
+	  border-radius: 8px;
+	  margin-bottom: 20px;
+	  padding: 20px;
+	  display: flex;
+	  flex-direction: column;
+	  border: 1px solid #dddddd;
+	}
+	.project-header {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	  margin-bottom: 15px;
+	}
+	.project-title {
+	  font-size: 1.5em;
+	  font-weight: bold;
+	  color: #333;
+	}
+	.project-year {
+	  font-size: 1em;
+	  color: #666;
+	}
+	.project-description {
+	  margin: 10px 0;
+	  color: #444;
+	}
+	.project-technologies {
+	  font-style: italic;
+	  color: #777;
+	}
+	.project-link a {
+	  color: #007bff;
+	  text-decoration: none;
+	  font-weight: bold;
+	}
+	.project-link a:hover {
+	  text-decoration: underline;
+	}
+	.edu_style{
+	  position: relative;
+	  width: 48px;
+	  height: 48px;
+	  box-sizing: border-box;
+	  background-clip: content-box;
+	  border: 4px solid transparent;
+	  border-radius: 100%;
+	  margin-right: 2px;
+	}
+	.certificates-grid {
+	  display: grid;
+	  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	  gap: 20px;
+	  justify-items: center;
+	  padding: 10px;
+	}
+	.certificate-card {
+	  background-color: #f9f9f9;
+	  border: 1px solid #ddd;
+	  border-radius: 10px;
+	  overflow: hidden;
+	  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	  width: 100%;
+	  max-width: 280px;
+	  text-align: center;
+	}
+	.certificate-card:hover {
+	  transform: translateY(-5px);
+	  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+	.certificate-image img {
+	  width: 100%;
+	  height: 100px;
+	  object-fit: contain;
+	  padding: 15px;
+	  background-color: #fff;
+	}
+	.certificate-info {
+	  padding: 10px 15px;
+	}
+	.certificate-degree {
+	  font-size: 1.2em;
+	  font-weight: bold;
+	  color: #333;
+	  margin: 5px 0;
+	}
+	.certificate-institution {
+	  font-size: 0.95em;
+	  color: #555;
+	  margin: 5px 0;
+	}
+	.certificate-duration {
+	  font-size: 0.85em;
+	  color: #777;
+	}
+	.certificate-skills {
+	  list-style: none;
+	  padding: 0;
+	  margin: 10px 0;
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	  gap: 5px;
+	}
+	.skill {
+	  background-color: #e0e0e0;
+	  padding: 3px 8px;
+	  border-radius: 15px;
+	  font-size: 0.8em;
+	}
+	.share-link {
+	  display: inline-block;
+	  margin-top: 10px;
+	  padding: 8px 12px;
+	  font-size: 0.9em;
+	  background-color: #0073b1;
+	  color: white;
+	  border-radius: 5px;
+	  text-decoration: none;
+	  transition: background-color 0.3s;
+	}
+	.share-link:hover {
+	  background-color: #005f8f;
+	}
+	.empty_link{
+	  color: gray !important;
+	}
+  </style>
 
-	<div>
-		<h2 class='text-lg font-medium tracking-wide text-end'>Latest Posts</h2>
-		<ListPosts FirstBig={true} posts={posts} />
-	</div>
+
+<BaseLayout title='Home'>
+	<TitleBanner title="D. S. Conité GBODOGBE" />
+
+  <!-- section1 -->
+  <h3 class="separator">About Me</h3>
+  <div class="row clearfix flex md:flex-row flex-col">
+    <div class="me">
+      <span class="profile-img" style="background-image: url(/src/assets/images/conite.jpg)"></span>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 col-print-12">
+      <p>
+        {CVInfo.about}
+      </p>
+      <p style="margin-top: 0.3em;">More specifically, my research interests are: </p>
+      <ul>
+          {CVInfo.interests.map(interest => <li class='list'><mark class="mark_1">{interest[0]}</mark>, {interest[1]}</li>)}
+      </ul>
+      <!--<ul>
+        <li>use <mark>symbolic knowledge</mark> (e.g. Regular Expressions) to help NLP models reach better performance and have better interpretability on NLP tasks.</li>
+        <li><mark>information extraction</mark>, such as entity typing and named entity recognition.</li>
+        <li><mark>information retrieval</mark>, familiar with related techniques.</li>
+        <li>investigate the <mark>ontological knowledge</mark> in large pretrained language models.</li>
+      </ul>-->
+      <font size="3" style="position: relative; top: 0.6em; font-weight: bold;">
+        I'm currently <marks>VERY INTERESTED</marks> at <mark>Large Language Models</mark> and keeps exploring and trying related techniques.
+        I'm <mark>open to the job market this Autumn</mark>, feel free to contact me through my email: <a style="color: #477dca;" href={`mailto:${CVInfo.email}`}>{CVInfo.email}</a>
+      </font>
+    </div>
+  </div>
+
+  <!-- section2 -->
+  <h3 class="separator">Education</h3>
+  <div class="education-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Degree</th>
+          <th>Institution</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        {CVInfo.education.map(edu => (
+		<tr>
+            <td><span class="flex"><!--<img class='edu_style' src={`${edu.image}`} />--><strong>{edu.degree}</strong></span></td>
+            <td>{edu.institution}</td>
+            <td>{edu.duration}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- section4 -->
+  <h3 class="separator">Prizes & Certifications</h3>
+  <div class="certificates-grid">
+    {CVInfo.certificates.map(certificate => (
+      <div class="certificate-card" style={{ background: certificate.share_link ? 'none' : '#d5f0ff' }}>
+        <div class="certificate-image">
+          <img src={certificate.image} alt={certificate.degree} />
+        </div>
+        <div class="certificate-info">
+          <h4 class="certificate-degree">{certificate.degree}</h4>
+          <p class="certificate-institution">{certificate.institution}</p>
+          <p class="certificate-duration">{certificate.duration}</p>
+          <!--{certificate.skills.length > 0 && (
+            <ul class="certificate-skills">
+              {certificate.skills.map(skill => (
+                <li class="skill">{skill}</li>
+              ))}
+            </ul>
+          )}-->
+          {certificate.share_link && (
+            <a href={certificate.share_link} class="share-link" target="_blank">View Credential</a>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  
+  </div>
+
+
+
 </BaseLayout>
 
 <script>
-	import { animate } from 'motion'
-	const showAnimations = localStorage.getItem('animations') === 'true'
+  import { animate } from 'motion'
+  const showAnimations = localStorage.getItem('animations') === 'true'
 
-	if (showAnimations) {
-		animate(
-			'.title',
-			{ y: [80, 0], opacity: [0, 1] },
-			{
-				duration: 2.5,
-				opacity: { duration: 3 },
-
-				offset: [0, 0.55, 0.75]
-			}
-		)
-	}
+  if (showAnimations) {
+    animate('.title', { y: [80, 0], opacity: [0, 1] }, { duration: 2.5, opacity: { duration: 3 }, offset: [0, 0.55, 0.75] })
+  }
 </script>

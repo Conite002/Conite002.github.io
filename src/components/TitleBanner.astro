@@ -1,0 +1,17 @@
+---
+import Title from './Title.astro'
+import Shape from './icons/Shape.astro'
+type Props = {
+	title: string
+}
+
+const { title } = Astro.props
+---
+
+<div class='flex justify-start items-center gap-2 title'>
+	<Shape />
+	<div style="display: flex; flex-direction: column;">
+		<Title>{title}</Title>
+		<h3 style="font-size: 0.8em;">MSc in Data Science at Mohamed VI Polytechnic University</h3>
+	</div>
+</div>
