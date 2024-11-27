@@ -185,13 +185,6 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
-"astro.mdx": {
-	id: "astro.mdx";
-  slug: "astro";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".mdx"] };
 "demistifying.mdx": {
 	id: "demistifying.mdx";
   slug: "demistifying";
