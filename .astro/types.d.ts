@@ -199,6 +199,20 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"rag.mdx": {
+	id: "rag.mdx";
+  slug: "rag";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"reinforcementlearning.mdx": {
+	id: "reinforcementlearning.mdx";
+  slug: "reinforcementlearning";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 };
 
 	};
