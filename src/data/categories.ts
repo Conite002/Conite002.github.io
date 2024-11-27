@@ -1,9 +1,7 @@
 // List of categories for blog posts
 export const CATEGORIES = [
-	'Category 1',
-	'Category 2',
-	'Category 3',
-	'Category 4',
-	'Category 5',
-	'Intelligence Artificielle'
+	'Retrieval-Augmented Generation (RAG)',
+	'Generative Adversarial Networks (GANs)',
+	'Ethics in AI',
+
 ] as const

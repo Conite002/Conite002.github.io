@@ -9,11 +9,12 @@ interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-	author: 'Conité GBODOGBE', // Site author
-	title: 'Exploring Innovations and Challenges in Artificial Intelligence and Data Science', // Site title.
-	description: " Hi, I’m a passionate student specializing in Data Science and Artificial Intelligence.", // Description to display in the meta tags
+	author: 'Conité GBODOGBE',
+	title: 'Exploring Innovations and Challenges in Artificial Intelligence and Data Science',
+	description: " Hi, I’m a passionate student specializing in Data Science and Artificial Intelligence.",
 	lang: 'en-GB',
 	ogLocale: 'en_GB',
-	shareMessage: 'Share this post', // Message to share a post on social media
-	paginationSize: 6 // Number of posts per page
+	shareMessage: 'Share this post',
+	paginationSize: 6
 }
+

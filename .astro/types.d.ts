@@ -192,9 +192,9 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
-"create-astro-component.mdx": {
-	id: "create-astro-component.mdx";
-  slug: "create-astro-component";
+"demistifying.mdx": {
+	id: "demistifying.mdx";
+  slug: "demistifying";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
