@@ -26,22 +26,26 @@ const articleDate = pubDate.toISOString()
 	articleDate={articleDate}
 >
 	<article class='min-w-full md:py-4 sm:max-w-none md:max-w-none'>
-		<header class='mb-3 flex flex-col justify-center items-center gap-6'>
-			<div class='flex flex-col gap-2'>
-				<div class='flex items-center justify-center gap-x-1'>
-					<p class='text-center text-sm text-opacity-50'>
+		<header class='mb-8 flex flex-col justify-center items-center gap-8'>
+			<div class='flex flex-col gap-4 max-w-4xl'>
+				<div class='flex items-center justify-center gap-x-2 text-gray-600 dark:text-gray-400'>
+					<p class='text-center text-sm'>
 						Published <FormattedDate date={pubDate} />
 					</p>
-					<p class='text-center text-sm text-opacity-50 font-bold'>
-						- {readTime}
+					<span class='text-gray-400'>•</span>
+					<p class='text-center text-sm font-medium'>
+						{readTime}
 					</p>
 				</div>
-				<h1 class='text-center text-4xl md:text-6xl md:pb-2.5 font-semibold'>
+				<h1 class='text-center text-4xl md:text-6xl md:pb-2.5 font-bold font-heading text-gray-900 dark:text-gray-100 leading-tight'>
 					{title}
 				</h1>
+				<p class='text-center text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed'>
+					{description}
+				</p>
 			</div>
 
-			<div class='flex flex-wrap justify-center items-center gap-2 gap-y-4 md:gap-5'>
+			<div class='flex flex-wrap justify-center items-center gap-2 gap-y-3 md:gap-3'>
 				{tags.map((tag) => <Tag tag={tag} />)}
 			</div>
 		</header>
@@ -81,24 +85,19 @@ const articleDate = pubDate.toISOString()
 				const index = document.querySelector(`aside a[href="#${entry.target.id}"]`)
 
 				if (entry.isIntersecting) {
-					index?.classList.remove('bg-slate-200', 'dark:bg-slate-800') // remove bg
+					index?.classList.remove('text-gray-600', 'dark:text-gray-400', 'border-transparent')
 					index?.classList.add(
-						'bg-indigo-600',
-						'dark:bg-indigo-700',
-						'text-white',
-						'font-bold',
-						'transition-colors',
-						'duration-200'
+						'text-primary-600',
+						'dark:text-primary-400',
+						'border-primary-500',
+						'font-semibold'
 					)
 				} else {
-					index?.classList.add('bg-slate-200', 'dark:bg-slate-800') // add bg
-					index?.classList.remove(
-						'bg-indigo-600',
-						'dark:bg-indigo-700',
-						'text-white',
-						'font-bold',
-						'transition-colors',
-						'duration-200'
+					index?.classList.remove('text-primary-600', 'dark:text-primary-400', 'border-primary-500', 'font-semibold')
+					index?.classList.add(
+						'text-gray-600',
+						'dark:text-gray-400',
+						'border-transparent'
 					)
 				}
 			})

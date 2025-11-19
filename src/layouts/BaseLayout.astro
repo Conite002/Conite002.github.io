@@ -16,12 +16,15 @@ const { title, description, image, articleDate } = Astro.props
 		<ProviderAnimations />
 	</head>
 
-	<body class='bg-white text-stone-950 dark:bg-[#0a0910] dark:text-white'>
+	<body class='bg-gradient-to-br from-gray-50 via-white to-gray-50 text-stone-950 dark:bg-gradient-to-br dark:from-gray-900 dark:via-[#0a0910] dark:to-gray-900 dark:text-white min-h-screen'>
+		<div class='fixed inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.05),rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_50%_120%,rgba(56,189,248,0.05),rgba(0,0,0,0))] pointer-events-none'></div>
 		<main
-			class='px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible'
+			class='relative px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible'
 		>
 			<Header />
-			<slot />
+			<div class='min-h-[60vh]'>
+				<slot />
+			</div>
 			<Footer />
 		</main>
 		<TwSizeIndicator />

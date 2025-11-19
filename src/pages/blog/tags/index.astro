@@ -6,15 +6,30 @@ const tags = await getTags()
 ---
 
 <BaseLayout title='Tags'>
-	<TitlePage title='Tags' />
-	<div class='flex justify-center flex-wrap gap-4'>
+	<!-- Hero Section -->
+	<div class='relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30 p-8 md:p-12 mb-12'>
+		<div class='relative z-10'>
+			<TitlePage title='Explore by Tags' />
+			<p class='text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mt-4 leading-relaxed'>
+				Browse all topics and discover content that interests you.
+			</p>
+		</div>
+	</div>
+
+	<!-- Tags Grid -->
+	<div class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
 		{
 			tags.map((tag) => (
 				<a
-					href={`/tags/${tag}`}
-					class='inline-block bg-gray-200  rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'
+					href={`/blog/tags/${tag}`}
+					class='group flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 shadow-sm hover:shadow-md transition-all duration-300'
 				>
-					#{tag}
+					<div class='flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-bold text-sm'>
+						#
+					</div>
+					<span class='font-semibold text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors'>
+						{tag}
+					</span>
 				</a>
 			))
 		}

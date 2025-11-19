@@ -4,5 +4,5 @@ export const CATEGORIES = [
 	'Generative Adversarial Networks (GANs)',
 	'Reinforcement Learning (RL)',
 	'Ethics in AI',
-
+	'Machine Learning Research',
 ] as const

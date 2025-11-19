@@ -3,28 +3,117 @@
 @tailwind utilities;
 
 @layer base {
-	/* body {
-		transition: background-color 0.5s ease;
-	} */
-
-	.prose code {
-		@apply text-base;
+	/* Typography improvements */
+	html {
+		@apply antialiased;
+		font-feature-settings: "liga" 1, "calt" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
-	/* prose styles here */
+	body {
+		transition: background-color 0.3s ease, color 0.3s ease;
+		@apply leading-relaxed;
+	}
+
+	/* Enhanced heading styles */
+	h1, h2, h3, h4, h5, h6 {
+		@apply font-heading font-bold tracking-tight;
+		letter-spacing: -0.025em;
+	}
+
+	h1 {
+		@apply text-5xl md:text-6xl lg:text-7xl;
+		line-height: 1.1;
+	}
+
+	h2 {
+		@apply text-3xl md:text-4xl lg:text-5xl;
+		line-height: 1.2;
+	}
+
+	h3 {
+		@apply text-2xl md:text-3xl lg:text-4xl;
+		line-height: 1.3;
+	}
+
+	p {
+		@apply leading-relaxed;
+	}
+
+	.prose {
+		@apply text-gray-700 dark:text-gray-300;
+		font-size: 1.125rem;
+		line-height: 1.75;
+	}
+
+	.prose code {
+		@apply text-base px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-primary-600 dark:text-primary-400;
+	}
+
+	.prose pre {
+		@apply rounded-lg shadow-soft;
+	}
+
+	.prose pre code {
+		@apply bg-transparent p-0 text-sm;
+	}
+
+	/* prose heading styles */
 	.prose h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		@apply text-zinc-800 dark:text-zinc-100   !important;
+	.prose h2,
+	.prose h3,
+	.prose h4,
+	.prose h5,
+	.prose h6 {
+		@apply text-zinc-800 dark:text-zinc-100 font-heading font-bold !important;
+	}
+
+	.prose h1 {
+		@apply text-4xl md:text-5xl mb-6 mt-8 !important;
+	}
+
+	.prose h2 {
+		@apply text-3xl md:text-4xl mb-4 mt-8 border-b-2 border-gray-200 dark:border-gray-700 pb-2 !important;
+	}
+
+	.prose h3 {
+		@apply text-2xl md:text-3xl mb-3 mt-6 !important;
+	}
+
+	.prose a {
+		@apply text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors no-underline hover:underline !important;
+	}
+
+	.prose strong {
+		@apply text-gray-900 dark:text-gray-100 font-semibold !important;
+	}
+
+	.prose blockquote {
+		@apply border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-900/20 rounded-r-lg !important;
+	}
+
+	.prose table {
+		@apply shadow-soft rounded-lg overflow-hidden !important;
+	}
+
+	.prose th {
+		@apply bg-gray-100 dark:bg-gray-800 !important;
+	}
+
+	.prose tr {
+		@apply border-b border-gray-200 dark:border-gray-700 !important;
+	}
+
+	.prose img {
+		@apply rounded-lg shadow-soft-lg !important;
 	}
 
 	html.dark .shiki,
 	html.dark .shiki span {
-	  color: var(--shiki-dark) !important;
-	  background-color: theme(colors.gray.900) !important;
+		color: var(--shiki-dark) !important;
+		background-color: theme(colors.gray.900) !important;
 	}
 }
 
@@ -37,4 +126,81 @@
 
 .shadow {
 	box-shadow: -5px 3px 8px 1px rgba(0, 0, 0, 0.12);
+}
+
+/* Custom gradient backgrounds */
+.gradient-primary {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-accent {
+	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.gradient-mesh {
+	background:
+		radial-gradient(at 40% 20%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+		radial-gradient(at 80% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+		radial-gradient(at 0% 50%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+		radial-gradient(at 80% 50%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+		radial-gradient(at 0% 100%, rgba(96, 165, 250, 0.15) 0px, transparent 50%),
+		radial-gradient(at 80% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+		radial-gradient(at 0% 0%, rgba(147, 197, 253, 0.15) 0px, transparent 50%);
+}
+
+/* Smooth transitions */
+@layer utilities {
+	.transition-smooth {
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	/* Modern card styles */
+	.card {
+		@apply bg-white dark:bg-gray-800 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 transition-smooth;
+	}
+
+	.card-hover {
+		@apply hover:shadow-soft-lg hover:-translate-y-1;
+	}
+
+	/* Section spacing */
+	.section-spacing {
+		@apply py-12 md:py-16 lg:py-20;
+	}
+
+	/* Content max width with better readability */
+	.content-container {
+		@apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+	}
+
+	/* Accent line decoration */
+	.accent-line {
+		@apply relative before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-primary-500 before:to-primary-600 before:rounded-full pl-6;
+	}
+
+	/* Badge styles */
+	.badge {
+		@apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300;
+	}
+
+	/* Decorative blob */
+	.blob {
+		border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+		animation: blob 7s ease-in-out infinite;
+	}
+
+	@keyframes blob {
+		0%, 100% {
+			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+		}
+		25% {
+			border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+		}
+		50% {
+			border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+		}
+		75% {
+			border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+		}
+	}
 }

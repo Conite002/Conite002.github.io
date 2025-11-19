@@ -8,7 +8,12 @@ type Props = {
 const { title } = Astro.props
 ---
 
-<div class='flex justify-start items-center gap-2 title'>
-	<Shape />
-	<Title>{title}</Title>
+<div class='flex flex-col gap-3 mb-8 title'>
+	<div class='flex items-center gap-3'>
+		<div class='p-2 bg-primary-600 rounded-md'>
+			<Shape />
+		</div>
+		<Title>{title}</Title>
+	</div>
+	<div class='h-0.5 w-16 bg-primary-600 rounded-full'></div>
 </div>
