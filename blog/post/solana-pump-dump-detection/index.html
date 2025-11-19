@@ -1,0 +1,1184 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth" data-astro-cid-37fxchfa> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.0.8"><!-- Canonical URL --><link rel="canonical" href="https://conite002.github.io/blog/post/solana-pump-dump-detection/"><!-- Primary Meta Tags --><title>Early Detection of Pump-and-Dump Schemes in Solana Token Markets • Exploring Innovations and Challenges in Artificial Intelligence and Data Science</title><!-- ViewTransitions  --><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><!-- SEO --><meta name="title" content="Early Detection of Pump-and-Dump Schemes in Solana Token Markets • Exploring Innovations and Challenges in Artificial Intelligence and Data Science"><meta name="description" content="A machine learning approach for detecting cryptocurrency market manipulation using time-windowed feature aggregation. Achieving 0.18068 precision using only the first 30 seconds of trading data."><meta name="author" content="Conité GBODOGBE"><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://conite002.github.io/blog/post/solana-pump-dump-detection/"><meta property="og:title" content="Early Detection of Pump-and-Dump Schemes in Solana Token Markets"><meta property="og:description" content="A machine learning approach for detecting cryptocurrency market manipulation using time-windowed feature aggregation. Achieving 0.18068 precision using only the first 30 seconds of trading data."><meta property="og:image" content="https://conite002.github.io/_astro/figure1_feature_importance.A5nKNToS.png"><meta property="article:author" content="Conité GBODOGBE"><meta property="article:published_time" content="2025-11-17T00:00:00.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://conite002.github.io/blog/post/solana-pump-dump-detection/"><meta property="twitter:title" content="Early Detection of Pump-and-Dump Schemes in Solana Token Markets"><meta property="twitter:description" content="A machine learning approach for detecting cryptocurrency market manipulation using time-windowed feature aggregation. Achieving 0.18068 precision using only the first 30 seconds of trading data."><meta property="twitter:image" content="https://conite002.github.io/_astro/figure1_feature_importance.A5nKNToS.png"><!-- RSS auto-discovery --><link rel="alternate" type="application/rss+xml" title="Exploring Innovations and Challenges in Artificial Intelligence and Data Science" href="/rss.xml"><link as="font" crossorigin rel="preload" href="/fonts/Manrope-Bold.woff2" type="font/woff2"><style>@font-face {font-weight: 200;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-ExtraLight.woff2)}</style><style>@font-face {font-weight: 300;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-Light.woff2)}</style><style>@font-face {font-weight: 400;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-Regular.woff2)}</style><style>@font-face {font-weight: 500;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-Medium.woff2)}</style><style>@font-face {font-weight: 600;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-SemiBold.woff2)}</style><style>@font-face {font-weight: 700;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-Bold.woff2)}</style><style>@font-face {font-weight: 800;font-style: normal;font-family: Manrope;font-display: swap;src: url(/fonts/Manrope-ExtraBold.woff2)}</style><style>@font-face { font-family: _font_fallback_1763528751525; size-adjust: 103.76%; src: local('Arial'); ascent-override: 102.74%; descent-override: 28.91%; line-gap-override: 0.00%; }</style><script>
+	function getTheme() {
+		const storedTheme = typeof localStorage !== 'undefined' && localStorage.getItem('theme')
+
+		return (
+			storedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+		)
+	}
+
+	function setTheme(newTheme) {
+		const html = document.documentElement
+		const isDark = newTheme === 'dark'
+
+		html.classList.toggle('dark', isDark)
+		html.classList.toggle('light', !isDark)
+
+		localStorage.setItem('theme', newTheme)
+	}
+
+	// set initial theme
+	setTheme(getTheme())
+	document.addEventListener('astro:after-swap', () => setTheme(getTheme()))
+
+	document.addEventListener('theme-change', (e) => {
+		setTheme(e.detail.theme)
+	})
+</script><script>
+	if (!('animations' in localStorage)) {
+		localStorage.setItem('animations', 'true')
+	} else {
+		localStorage.setItem('animations', 'false')
+	}
+</script><link rel="stylesheet" href="/_astro/_page_.BbIiXeNN.css" />
+<link rel="stylesheet" href="/_astro/_slug_.4I_eQSKN.css" />
+<style>@media (min-width: 768px){.md\:text-6xl[data-astro-cid-l3utfwjv]{font-size:3rem!important;line-height:1}.md\:prose-xl[data-astro-cid-l3utfwjv] :where(h1):not(:where([class~=not-prose],[class~=not-prose] *))[data-astro-cid-l3utfwjv]{font-size:2em!important;margin-top:0;margin-bottom:.8571429em;line-height:1}.md\:prose-xl[data-astro-cid-l3utfwjv] :where(h2):not(:where([class~=not-prose],[class~=not-prose] *))[data-astro-cid-l3utfwjv]{font-size:1.3em!important;margin-top:1.5555556em;margin-bottom:.8888889em;line-height:1.1111111}}
+</style><script type="module" src="/_astro/hoisted.a_eW3mfk.js"></script></head> <body class="bg-gradient-to-br from-gray-50 via-white to-gray-50 text-stone-950 dark:bg-gradient-to-br dark:from-gray-900 dark:via-[#0a0910] dark:to-gray-900 dark:text-white min-h-screen" data-astro-cid-37fxchfa> <div class="fixed inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.05),rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_50%_120%,rgba(56,189,248,0.05),rgba(0,0,0,0))] pointer-events-none" data-astro-cid-37fxchfa></div> <main class="relative px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible" data-astro-cid-37fxchfa> <header class="relative flex items-center h-16 font-semibold bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 px-4 -mx-4"> <span style="display: flex; flex-direction: row; gap: 1.5rem;" class="text-lg mr-auto"> <a class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-heading" href="/">Resume</a> <a class="nav-link hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-heading text-primary-600 dark:text-primary-400 font-bold" href="/blog">Blog</a> </span> <div id="astro-header-drawer" class="shadow rounded-l-lg md:bg-transparent dark:md:bg-transparent bg-white dark:bg-[#0a0910] md:shadow-none md:rounded-none md:border-none md:h-auto md:static absolute transition-transform duration-300 ease-in translate-x-96 md:translate-x-0 top-12 -right-5 pl-4 pt-6 pb-4 md:p-0 h-[200px] w-[200px] z-50"> <nav class="flex h-full flex-col justify-between gap-12 text-left md:flex-row md:w-full md:gap-5"> <div class="flex flex-col gap-4 md:flex-row md:border-r-2 border-gray-300 dark:border-gray-700 pr-4"> <a href="/blog/tags" class="text-opacity-60 flex items-center gap-1.5 text-2xl md:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-heading" rel="noopener noreferrer ">  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 md:w-6" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z"></path> <path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116"></path> <path d="M6 9h-.01"></path> </svg> Tags
+ </a> </div> <div class="flex justify-center items-center md:justify-end gap-3 md:p-0"> <a href="https://github.com/Conite002" class="text-opacity-60" rel="noopener noreferrer " target="_blank" aria-label="Github">  <span><svg xmlns="http://www.w3.org/2000/svg" class="w-8 md:w-6" viewBox="0 0 24 24" stroke-width="1.3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path> </svg> </span>  </a><a href="www.linkedin.com/in/d-s-conité-gbodogbe" class="text-opacity-60" rel="noopener noreferrer " target="_blank" aria-label="LinkedIn">  <span><svg enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.0" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M32,30c0,1.104-0.896,2-2,2H2c-1.104,0-2-0.896-2-2V2c0-1.104,0.896-2,2-2h28c1.104,0,2,0.896,2,2V30z" fill="#007BB5"></path><g><rect fill="#FFFFFF" height="14" width="4" x="7" y="11"></rect><path d="M20.499,11c-2.791,0-3.271,1.018-3.499,2v-2h-4v14h4v-8c0-1.297,0.703-2,2-2c1.266,0,2,0.688,2,2v8h4v-7    C25,14,24.479,11,20.499,11z" fill="#FFFFFF"></path><circle cx="9" cy="8" fill="#FFFFFF" r="2"></circle></g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg> </span>  </a> </div> </nav> </div> <div class="flex items-center gap-3 md:pl-3" data-astro-transition-persist="navbar"> <div> <site-search id="search" class="ms-auto"> <button data-open-modal disabled class="flex items-center justify-center rounded-md gap-1"> <svg aria-label="search" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"> <path stroke="none" d="M0 0h24v24H0z"></path> <path d="M3 10a7 7 0 1 0 14 0 7 7 0 1 0-14 0M21 21l-6-6"></path> </svg> <!-- <span class='md:hidden text-2xl'> Search</span> --> </button> <dialog aria-label="search" class="h-full max-h-full w-full max-w-full border border-zinc-400 bg-white dark:bg-[#0a0910ec] shadow backdrop:backdrop-blur sm:mx-auto sm:mb-auto sm:mt-16 sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md opacity-0"> <div class="dialog-frame flex flex-col gap-4 p-6 pt-12 sm:pt-6"> <button data-close-modal class="ms-auto cursor-pointer rounded-full bg-black text-white px-4 py-2 dark:bg-white dark:text-black">Close</button> <div class="search-container dark:text-white"> <div id="pagefind__search"></div> </div> </div> </dialog> </site-search>   </div>  <theme-toggle class="relative h-6 w-6"> <button id="toggle-theme" class="group" aria-label="Toggle Theme"> <span class="absolute left-0 right-0 top-0 opacity-0 group-aria-pressed:opacity-100"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun-high" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z"></path> <path d="M6.343 17.657l-1.414 1.414"></path> <path d="M6.343 6.343l-1.414 -1.414"></path> <path d="M17.657 6.343l1.414 -1.414"></path> <path d="M17.657 17.657l1.414 1.414"></path> <path d="M4 12h-2"></path> <path d="M12 4v-2"></path> <path d="M20 12h2"></path> <path d="M12 20v2"></path> </svg> </span> <span class="absolute left-0 right-0 top-0 opacity-0 group-aria-[pressed=false]:opacity-100"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path> </svg> </span> </button> </theme-toggle> <script>
+	const button = document.getElementById('toggle-theme')
+
+	function setButtonPresssed() {
+		const bodyThemeIsDark = document.documentElement.classList.contains('dark')
+		button.setAttribute('aria-pressed', String(bodyThemeIsDark))
+	}
+	setButtonPresssed()
+</script> <button id="astro-header-drawer-button" type="button" class="md:ml-6 md:hidden"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M4 6l16 0"></path> <path d="M4 12l16 0"></path> <path d="M4 18l16 0"></path> </svg> <span class="sr-only">Show Menu</span> </button> </div> </header>  <div class="min-h-[60vh]" data-astro-cid-37fxchfa>  <article class="min-w-full md:py-4 sm:max-w-none md:max-w-none"> <header class="mb-8 flex flex-col justify-center items-center gap-8"> <div class="flex flex-col gap-4 max-w-4xl"> <div class="flex items-center justify-center gap-x-2 text-gray-600 dark:text-gray-400"> <p class="text-center text-sm">
+Published <time class="text-sm font-bold text-opacity-60" datetime="2025-11-17T00:00:00.000Z"> Nov 17, 2025 </time> </p> <span class="text-gray-400">•</span> <p class="text-center text-sm font-medium"> 20 min read </p> </div> <h1 class="text-center text-4xl md:text-6xl md:pb-2.5 font-bold font-heading text-gray-900 dark:text-gray-100 leading-tight"> Early Detection of Pump-and-Dump Schemes in Solana Token Markets </h1> <p class="text-center text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"> A machine learning approach for detecting cryptocurrency market manipulation using time-windowed feature aggregation. Achieving 0.18068 precision using only the first 30 seconds of trading data. </p> </div> <div class="flex flex-wrap justify-center items-center gap-2 gap-y-3 md:gap-3"> <a href="/blog/tags/machine%20learning" aria-label="Machine Learning" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Machine Learning</span> </span> </a><a href="/blog/tags/cryptocurrency" aria-label="Cryptocurrency" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Cryptocurrency</span> </span> </a><a href="/blog/tags/fraud%20detection" aria-label="Fraud Detection" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Fraud Detection</span> </span> </a><a href="/blog/tags/gradient%20boosting" aria-label="Gradient Boosting" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Gradient Boosting</span> </span> </a><a href="/blog/tags/feature%20engineering" aria-label="Feature Engineering" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Feature Engineering</span> </span> </a><a href="/blog/tags/blockchain" aria-label="Blockchain" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Blockchain</span> </span> </a><a href="/blog/tags/research%20paper" aria-label="Research Paper" class="inline-block"> <span class="bg-gray-100 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-gray-700 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 font-medium text-xs md:text-sm w-fit px-2.5 py-1 md:px-4 md:py-1.5 rounded-md transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"> <span class="text-[10px] md:text-xs opacity-60">#</span> <span>Research Paper</span> </span> </a> </div> </header> <img src="/_astro/figure1_feature_importance.A5nKNToS_FVcYW.jpg" loading="eager" class="rounded-md w-full max-h-[300px]  md:max-h-[500px] my-8 object-cover" alt="img of Early Detection of Pump-and-Dump Schemes in Solana Token Markets" width="1000" height="500" decoding="async"> <hr> <div> <div class="grid grid-cols-1 md:grid-cols-[20%_auto] gap-10 mt-8" data-astro-cid-l3utfwjv><!-- aside  --><aside class="md:flex flex-col gap-8 hidden" data-astro-cid-l3utfwjv><div class="flex flex-col gap-2"> <span class="mb-1 font-bold text-2xl">Share</span> <ul class="flex gap-3 text-black dark:text-white"> <li> <a href="https://twitter.com/intent/tweet?text=Share this post https://conite002.github.io/blog/post/solana-pump-dump-detection/" aria-label="Share on Twitter"><!--?xml version="1.0" ?--><svg height="32px" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M448,512l-384,0c-35.328,0 -64,-28.672 -64,-64l0,-384c0,-35.328 28.672,-64 64,-64l384,0c35.328,0 64,28.672 64,64l0,384c0,35.328 -28.672,64 -64,64Z" id="Dark_Blue" style="fill:#1da1f2;fill-rule:nonzero;"></path><path d="M196.608,386.048c120.704,0 186.752,-100.096 186.752,-186.752c0,-2.816 0,-5.632 -0.128,-8.448c12.8,-9.216 23.936,-20.864 32.768,-34.048c-11.776,5.248 -24.448,8.704 -37.76,10.368c13.568,-8.064 23.936,-20.992 28.928,-36.352c-12.672,7.552 -26.752,12.928 -41.728,15.872c-12.032,-12.8 -29.056,-20.736 -47.872,-20.736c-36.224,0 -65.664,29.44 -65.664,65.664c0,5.12 0.64,10.112 1.664,14.976c-54.528,-2.688 -102.912,-28.928 -135.296,-68.608c-5.632,9.728 -8.832,20.992 -8.832,33.024c0,22.784 11.648,42.88 29.184,54.656c-10.752,-0.384 -20.864,-3.328 -29.696,-8.192l0,0.896c0,31.744 22.656,58.368 52.608,64.384c-5.504,1.536 -11.264,2.304 -17.28,2.304c-4.224,0 -8.32,-0.384 -12.288,-1.152c8.32,26.112 32.64,45.056 61.312,45.568c-22.528,17.664 -50.816,28.16 -81.536,28.16c-5.248,0 -10.496,-0.256 -15.616,-0.896c28.928,18.432 63.488,29.312 100.48,29.312" id="Logo__x2014__FIXED" style="fill:#fff;fill-rule:nonzero;"></path></g></svg></a> </li> <li> <a href="https://www.linkedin.com/shareArticle?mini=true&#38;url=https://conite002.github.io/blog/post/solana-pump-dump-detection/" aria-label="Share on LinkedIn"> <svg enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.0" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M32,30c0,1.104-0.896,2-2,2H2c-1.104,0-2-0.896-2-2V2c0-1.104,0.896-2,2-2h28c1.104,0,2,0.896,2,2V30z" fill="#007BB5"></path><g><rect fill="#FFFFFF" height="14" width="4" x="7" y="11"></rect><path d="M20.499,11c-2.791,0-3.271,1.018-3.499,2v-2h-4v14h4v-8c0-1.297,0.703-2,2-2c1.266,0,2,0.688,2,2v8h4v-7    C25,14,24.479,11,20.499,11z" fill="#FFFFFF"></path><circle cx="9" cy="8" fill="#FFFFFF" r="2"></circle></g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></a> </li> </ul> </div><!--<a href="#disqus_thread">Link</a>--><div class="sticky top-24 self-start hidden md:block transition-all duration-200" data-astro-cid-l3utfwjv><nav class="max-w-xs"> <p class="font-semibold mb-4 text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400">On This Page</p> <ul class="[text-wrap:balance] flex flex-col border-l border-gray-200 dark:border-gray-700"> <li class="flex flex-col"> <a href="#early-detection-of-pump-and-dump-schemes-in-solana-token-markets-using-time-windowed-feature-aggregation" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Early Detection of Pump-and-Dump Schemes in Solana Token Markets Using Time-Windowed Feature Aggregation </a>  </li><li class="flex flex-col"> <a href="#abstract" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Abstract </a>  </li><li class="flex flex-col"> <a href="#1-introduction" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 1. Introduction </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#11-motivation" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 1.1 Motivation </a>  </li><li class="flex flex-col"> <a href="#12-problem-statement" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 1.2 Problem Statement </a>  </li><li class="flex flex-col"> <a href="#13-contributions" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 1.3 Contributions </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#2-related-work" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 2. Related Work </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#21-pump-and-dump-detection" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 2.1 Pump-and-Dump Detection </a>  </li><li class="flex flex-col"> <a href="#22-machine-learning-for-financial-fraud-detection" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 2.2 Machine Learning for Financial Fraud Detection </a>  </li><li class="flex flex-col"> <a href="#23-market-microstructure-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 2.3 Market Microstructure Features </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#3-methodology" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3. Methodology </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#31-problem-formulation" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.1 Problem Formulation </a>  </li><li class="flex flex-col"> <a href="#32-dataset" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.2 Dataset </a>  </li><li class="flex flex-col"> <a href="#33-feature-engineering" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3 Feature Engineering </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#331-basic-aggregations-48-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3.1 Basic Aggregations (48 features) </a>  </li><li class="flex flex-col"> <a href="#332-windowed-aggregations-24-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3.2 Windowed Aggregations (24 features) </a>  </li><li class="flex flex-col"> <a href="#333-early-momentum-5-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3.3 Early Momentum (5 features) </a>  </li><li class="flex flex-col"> <a href="#334-whale-detection-4-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3.4 Whale Detection (4 features) </a>  </li><li class="flex flex-col"> <a href="#335-composite-features-10-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.3.5 Composite Features (10 features) </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#34-model-architecture" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 3.4 Model Architecture </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#4-experiments" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4. Experiments </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#41-experimental-setup" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.1 Experimental Setup </a>  </li><li class="flex flex-col"> <a href="#42-baseline-model-v4" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.2 Baseline Model (V4) </a>  </li><li class="flex flex-col"> <a href="#43-model-evolution-v4-v12" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.3 Model Evolution (V4-V12) </a>  </li><li class="flex flex-col"> <a href="#44-best-model-analysis-v5" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.4 Best Model Analysis (V5) </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#441-performance-metrics" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.4.1 Performance Metrics </a>  </li><li class="flex flex-col"> <a href="#442-feature-importance" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.4.2 Feature Importance </a>  </li><li class="flex flex-col"> <a href="#443-threshold-analysis" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.4.3 Threshold Analysis </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#45-failed-experiments" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.5 Failed Experiments </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#451-v11-aggressive-feature-selection" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.5.1 V11: Aggressive Feature Selection </a>  </li><li class="flex flex-col"> <a href="#452-v12-network-graph-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 4.5.2 V12: Network Graph Features </a>  </li> </ul> </li> </ul> </li><li class="flex flex-col"> <a href="#5-ablation-study" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 5. Ablation Study </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#51-impact-of-feature-categories" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 5.1 Impact of Feature Categories </a>  </li><li class="flex flex-col"> <a href="#52-impact-of-time-windows" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 5.2 Impact of Time Windows </a>  </li><li class="flex flex-col"> <a href="#53-impact-of-training-data-size" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 5.3 Impact of Training Data Size </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#6-discussion" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6. Discussion </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#61-key-findings" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.1 Key Findings </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#611-coordination-leaves-detectable-footprints" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.1.1 Coordination Leaves Detectable Footprints </a>  </li><li class="flex flex-col"> <a href="#612-simple-features-outperform-complex-features" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.1.2 Simple Features Outperform Complex Features </a>  </li><li class="flex flex-col"> <a href="#613-feature-context-matters-for-tree-models" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.1.3 Feature Context Matters for Tree Models </a>  </li><li class="flex flex-col"> <a href="#614-temporal-granularity-is-critical" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.1.4 Temporal Granularity is Critical </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#62-practical-implications" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.2 Practical Implications </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#621-real-time-deployment" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.2.1 Real-Time Deployment </a>  </li><li class="flex flex-col"> <a href="#622-investor-protection" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.2.2 Investor Protection </a>  </li><li class="flex flex-col"> <a href="#623-ethical-considerations" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.2.3 Ethical Considerations </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#63-limitations" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.3 Limitations </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#631-data-constraints" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.3.1 Data Constraints </a>  </li><li class="flex flex-col"> <a href="#632-model-constraints" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.3.2 Model Constraints </a>  </li><li class="flex flex-col"> <a href="#633-adversarial-robustness" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 6.3.3 Adversarial Robustness </a>  </li> </ul> </li> </ul> </li><li class="flex flex-col"> <a href="#7-conclusion-and-future-work" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7. Conclusion and Future Work </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#71-summary" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.1 Summary </a>  </li><li class="flex flex-col"> <a href="#72-figure-summary" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.2 Figure Summary </a>  </li><li class="flex flex-col"> <a href="#73-future-work" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.3 Future Work </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#731-data-expansion" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.3.1 Data Expansion </a>  </li><li class="flex flex-col"> <a href="#732-model-improvements" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.3.2 Model Improvements </a>  </li><li class="flex flex-col"> <a href="#733-feature-engineering" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.3.3 Feature Engineering </a>  </li><li class="flex flex-col"> <a href="#734-operational-deployment" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.3.4 Operational Deployment </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#74-broader-impact" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.4 Broader Impact </a>  </li><li class="flex flex-col"> <a href="#75-roadmap-to-028-precision" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> 7.5 Roadmap to 0.28+ Precision </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#acknowledgments" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Acknowledgments </a>  </li><li class="flex flex-col"> <a href="#references" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> References </a>  </li><li class="flex flex-col"> <a href="#appendix-a-complete-feature-list" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Appendix A: Complete Feature List </a>  </li><li class="flex flex-col"> <a href="#appendix-b-hyperparameter-tuning" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Appendix B: Hyperparameter Tuning </a>  </li><li class="flex flex-col"> <a href="#appendix-c-code-snippets" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Appendix C: Code Snippets </a> <ul class="ml-4"> <li class="flex flex-col"> <a href="#feature-engineering-vectorized" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> Feature Engineering (Vectorized) </a>  </li><li class="flex flex-col"> <a href="#catboost-training" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> CatBoost Training </a>  </li> </ul> </li><li class="flex flex-col"> <a href="#about-this-research" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 py-1.5 px-2 text-sm border-l-2 border-transparent hover:border-primary-500 transition-all duration-200 line-clamp-2 leading-relaxed"> About This Research </a>  </li> </ul> </nav></div></aside><!-- post --><article class="max-w-full w-full" data-astro-cid-l3utfwjv><div style="transform: scale(0.9); transform-origin: top;" data-astro-cid-l3utfwjv><div class="prose prose-lg md:prose-xl dark:prose-invert mb-12 min-w-full" data-astro-cid-l3utfwjv><h1 id="early-detection-of-pump-and-dump-schemes-in-solana-token-markets-using-time-windowed-feature-aggregation">Early Detection of Pump-and-Dump Schemes in Solana Token Markets Using Time-Windowed Feature Aggregation</h1>
+<p><strong>Research Paper</strong></p>
+<hr/>
+<h2 id="abstract">Abstract</h2>
+<p>Pump-and-dump schemes represent a critical threat in decentralized cryptocurrency markets, particularly in emerging token ecosystems. This paper presents a machine learning approach for early detection of coordinated pump-and-dump schemes in Solana token markets using only the first 30 seconds of trading data. We develop a gradient boosting framework with 95 carefully engineered temporal and market microstructure features that capture coordination patterns, holder behavior, and early momentum signals. Through systematic experimentation across multiple model iterations (V4-V12), we demonstrate that simple, interpretable aggregation features significantly outperform complex network-based and engineered features <strong>(Figure 2)</strong>. Our best model (V5) achieves <strong>0.18068 precision</strong> on held-out evaluation data, representing an <strong>11.5% improvement</strong> over the baseline <strong>(Figure 3)</strong>. Ablation studies reveal that feature complexity does not correlate with performance, and that temporal aggregation windows (5s, 10s, 15s, 20s) combined with holder dynamics provide the strongest signal for detecting coordinated manipulation <strong>(Figure 4-5)</strong>. Feature importance analysis <strong>(Figure 1)</strong> shows that early momentum (<code>buy_acceleration_5to10</code>), whale detection (<code>holder_turnover</code>), and price action (<code>market_cap_usd_min</code>) dominate model predictions. Our findings suggest that pump-and-dump coordination leaves detectable footprints in early trading patterns, particularly in buy acceleration, holder concentration, and volume distribution metrics.</p>
+<p><strong>Keywords:</strong> Cryptocurrency fraud detection, Pump-and-dump schemes, Gradient boosting, Feature engineering, Market microstructure, Solana blockchain</p>
+<hr/>
+<h2 id="1-introduction">1. Introduction</h2>
+<h3 id="11-motivation">1.1 Motivation</h3>
+<p>Decentralized finance (DeFi) and token markets have experienced explosive growth, with platforms like Solana facilitating billions of dollars in daily trading volume. However, this rapid expansion has created opportunities for market manipulation, particularly pump-and-dump (P&amp;D) schemes where coordinated groups artificially inflate token prices before selling at peak values, leaving retail investors with significant losses.</p>
+<p>Unlike traditional securities markets with regulatory oversight and market surveillance systems, decentralized exchanges (DEXs) operate with minimal intermediation. This creates an environment where manipulation can occur rapidly and at scale. The challenge is particularly acute in the Solana ecosystem, where new tokens can be launched permissionlessly on platforms like pump.fun, attracting both legitimate projects and malicious actors.</p>
+<h3 id="12-problem-statement">1.2 Problem Statement</h3>
+<p><strong>Can we detect pump-and-dump schemes using only the first 30 seconds of trading data?</strong></p>
+<p>This ultra-short time horizon is both a constraint and an opportunity:</p>
+<ul>
+<li><strong>Constraint</strong>: Limited data compared to traditional fraud detection systems that analyze hours or days of trading</li>
+<li><strong>Opportunity</strong>: If successful, enables real-time intervention and investor protection</li>
+</ul>
+<p>We frame this as a <strong>binary classification problem</strong>: given a token’s first 30 seconds of trading activity (transactions, holders, prices, volumes), predict whether it will exhibit pump-and-dump behavior within the next 6 hours.</p>
+<h3 id="13-contributions">1.3 Contributions</h3>
+<p>Our work makes the following contributions:</p>
+<ol>
+<li>
+<p><strong>Feature Engineering Framework</strong>: We develop a comprehensive set of 95 temporal features organized into five categories <strong>(Figure 7)</strong>: basic market statistics, windowed aggregations (5s/10s/15s/20s), early momentum signals, whale detection metrics, and price action indicators.</p>
+</li>
+<li>
+<p><strong>Systematic Evaluation</strong>: We conduct extensive experimentation across 8 model versions (V4-V12) <strong>(Figure 2, 3)</strong>, demonstrating that simple aggregation features consistently outperform complex engineered features by 10-20%.</p>
+</li>
+<li>
+<p><strong>Interpretable Models</strong>: Using CatBoostClassifier with carefully tuned hyperparameters, we achieve 0.18068 precision while maintaining model interpretability through feature importance analysis <strong>(Figure 1)</strong>.</p>
+</li>
+<li>
+<p><strong>Ablation Studies</strong> <strong>(Figure 4-5)</strong>: We provide empirical evidence that:</p>
+<ul>
+<li>Removing windowed features (-15.7%) has the largest performance impact</li>
+<li>Optimal time granularity uses 4 windows (5s, 10s, 15s, 20s)</li>
+<li>Early momentum ratios are among the strongest predictors</li>
+</ul>
+</li>
+<li>
+<p><strong>Threshold Analysis</strong> <strong>(Figure 6)</strong>: Precision-recall tradeoffs guide operational deployment, showing threshold=0.95 balances precision (18.1%) with recall (22%).</p>
+</li>
+</ol>
+<hr/>
+<h2 id="2-related-work">2. Related Work</h2>
+<h3 id="21-pump-and-dump-detection">2.1 Pump-and-Dump Detection</h3>
+<p>Traditional research on pump-and-dump detection has focused primarily on centralized markets and longer time horizons:</p>
+<ul>
+<li><strong>Kamps &amp; Kleinberg (2018)</strong> analyzed pump signals in cryptocurrency Telegram groups, achieving detection after the pump occurs</li>
+<li><strong>La Morgia et al. (2020)</strong> studied Discord and Telegram coordination but focused on post-hoc analysis rather than prediction</li>
+<li><strong>Xu &amp; Livshits (2019)</strong> examined pump patterns in low-cap cryptocurrencies over multi-hour windows</li>
+</ul>
+<p>Our work differs in focusing on <strong>ultra-short 30-second windows</strong> for early detection, before significant price manipulation occurs.</p>
+<h3 id="22-machine-learning-for-financial-fraud-detection">2.2 Machine Learning for Financial Fraud Detection</h3>
+<p>Machine learning approaches to financial fraud have demonstrated success across various domains:</p>
+<ul>
+<li><strong>Gradient boosting</strong> (XGBoost, LightGBM, CatBoost) has proven effective for tabular financial data with class imbalance</li>
+<li><strong>Feature engineering</strong> from time-series data (OHLCV, order flow, microstructure) is critical for performance</li>
+<li><strong>Threshold tuning</strong> balances precision-recall tradeoffs for operational deployment</li>
+</ul>
+<h3 id="23-market-microstructure-features">2.3 Market Microstructure Features</h3>
+<p>Our feature engineering draws on market microstructure theory:</p>
+<ul>
+<li><strong>Volume dynamics</strong>: Early front-loading of volume signals coordination</li>
+<li><strong>Holder concentration</strong>: High turnover and low diversity indicate coordinated entry/exit</li>
+<li><strong>Price momentum</strong>: Acceleration patterns in first seconds distinguish organic from manipulated launches</li>
+</ul>
+<hr/>
+<h2 id="3-methodology">3. Methodology</h2>
+<h3 id="31-problem-formulation">3.1 Problem Formulation</h3>
+<p>We formalize pump-and-dump detection as:</p>
+<p><strong>Given</strong>: Token trading data from first 30 seconds after launch
+<strong>Predict</strong>: Binary label <code>y ∈ {0, 1}</code> indicating pump-and-dump scheme
+<strong>Objective</strong>: Maximize precision @ top-K predictions (operational metric for investor protection)</p>
+<p><strong>Evaluation metric</strong>: We prioritize <strong>precision over recall</strong> because:</p>
+<ul>
+<li>False positives harm legitimate projects</li>
+<li>True positives at high confidence enable actionable intervention</li>
+<li>Top-K precision aligns with real-world deployment (flagging highest-risk tokens)</li>
+</ul>
+<h3 id="32-dataset">3.2 Dataset</h3>
+<p><strong>Data Source</strong>: September 2024 Solana token launches from pump.fun platform</p>
+<p><strong>Dataset Statistics</strong>:</p>
+<ul>
+<li>Total tokens: ~150,000</li>
+<li>Positive samples (pump-and-dump): ~3,000 (2-3% class imbalance)</li>
+<li>Features per token: 95</li>
+<li>Training set: 120,000 tokens</li>
+<li>Validation set: 30,000 tokens</li>
+</ul>
+<p><strong>Labeling</strong>: Tokens labeled as pump-and-dump if:</p>
+<ol>
+<li>Price increases <code>&gt;3x</code> in first 6 hours</li>
+<li>Followed by <code>&gt;50%</code> decline from peak</li>
+<li>Volume concentrates in first hour</li>
+</ol>
+<p><strong>Data Quality</strong>: All tokens have complete 30-second trading windows. Tokens with <code>&lt;5</code> transactions excluded (<code>&lt;1%</code> of dataset).</p>
+<h3 id="33-feature-engineering">3.3 Feature Engineering</h3>
+<p>We engineer 95 features organized into five categories <strong>(see Figure 7 for distribution)</strong>. Feature engineering is <strong>vectorized</strong> across all tokens simultaneously to ensure computational efficiency (15-20 minutes for 150K tokens).</p>
+<h4 id="331-basic-aggregations-48-features">3.3.1 Basic Aggregations (48 features)</h4>
+<p><strong>Market Statistics</strong> (12 features):</p>
+<ul>
+<li>Transaction counts, volume (SOL/token), holder counts</li>
+<li><strong>Aggregations</strong>: <code>{min, max, mean, std, sum, median}</code></li>
+</ul>
+<p><strong>Temporal Features</strong> (12 features):</p>
+<ul>
+<li>Transaction timestamps (<code>t_seconds</code>): patterns in timing coordination</li>
+<li><strong>Aggregations</strong>: <code>{min, max, mean, std, sum, median}</code></li>
+</ul>
+<p><strong>Volume Distribution</strong> (12 features):</p>
+<ul>
+<li>SOL delta, token quantity distributions</li>
+<li><strong>Aggregations</strong>: <code>{min, max, mean, std, sum, median}</code></li>
+</ul>
+<p><strong>Price Action</strong> (12 features):</p>
+<ul>
+<li>Market cap USD, token price movements</li>
+<li><strong>Aggregations</strong>: <code>{min, max, mean, std, sum, median}</code></li>
+</ul>
+<h4 id="332-windowed-aggregations-24-features">3.3.2 Windowed Aggregations (24 features)</h4>
+<p>For each time window <code>w ∈ {5s, 10s, 15s, 20s}</code>, compute:</p>
+<ul>
+<li><code>buy_count_w</code>: Number of buys in window <code>[0, w]</code></li>
+<li><code>volume_w</code>: Total SOL volume in window <code>[0, w]</code></li>
+<li><code>unique_holders_w</code>: Distinct holders in window <code>[0, w]</code></li>
+<li><code>avg_transaction_size_w</code>: Mean transaction size in window <code>[0, w]</code></li>
+<li><code>price_change_w</code>: Price change from 0s to <code>w</code></li>
+<li><code>holder_growth_rate_w</code>: <code>unique_holders_w / w</code></li>
+</ul>
+<p><strong>Rationale</strong>: Multi-scale temporal analysis captures both immediate coordination (5s) and sustained manipulation (20s).</p>
+<h4 id="333-early-momentum-5-features">3.3.3 Early Momentum (5 features)</h4>
+<p><strong>Acceleration ratios</strong> comparing sequential windows:</p>
+<ul>
+<li><code>buy_acceleration_5to10 = buy_count_10s / max(buy_count_5s, 1)</code></li>
+<li><code>volume_acceleration_5to10 = volume_10s / max(volume_5s, 1)</code></li>
+<li><code>buy_acceleration_10to20 = buy_count_20s / max(buy_count_10s, 1)</code></li>
+<li><code>early_volume_ratio_5s = volume_5s / max(volume_sum, 1)</code></li>
+<li><code>early_volume_ratio_10s = volume_10s / max(volume_sum, 1)</code></li>
+</ul>
+<p><strong>Hypothesis</strong>: Coordinated pumps exhibit front-loaded activity (high early ratios) compared to organic growth.</p>
+<h4 id="334-whale-detection-4-features">3.3.4 Whale Detection (4 features)</h4>
+<ul>
+<li><code>holder_concentration = max_holder_balance / total_supply</code></li>
+<li><code>holder_diversity = unique_holders / transaction_count</code></li>
+<li><code>holder_turnover = (entries + exits) / unique_holders</code></li>
+<li><code>whale_volume_pct = volume_top3_holders / total_volume</code></li>
+</ul>
+<p><strong>Hypothesis</strong>: Pump groups concentrate holdings and exhibit high turnover (rapid entry/exit).</p>
+<h4 id="335-composite-features-10-features">3.3.5 Composite Features (10 features)</h4>
+<ul>
+<li><code>volume_volatility = sol_volume_std / max(sol_volume_mean, 1e-9)</code></li>
+<li><code>price_momentum = (price_max - price_min) / max(price_min, 1e-9)</code></li>
+<li><code>liquidity_depth = unique_holders * sol_volume_sum</code></li>
+<li><code>transaction_density = transaction_count / 30.0</code></li>
+<li>Additional ratio features combining base statistics</li>
+</ul>
+<p><strong>Feature Category Summary</strong> (visualized in <strong>Figure 7</strong>):</p>
+<ul>
+<li><strong>Basic Aggregations (48 features)</strong>: 32.5% cumulative importance</li>
+<li><strong>Windowed Features (24 features)</strong>: 28.3% cumulative importance</li>
+<li><strong>Early Momentum (5 features)</strong>: 18.7% cumulative importance</li>
+<li><strong>Whale Detection (4 features)</strong>: 11.2% cumulative importance</li>
+<li><strong>Price Action (4 features)</strong>: 5.8% cumulative importance</li>
+<li><strong>Composite Features (10 features)</strong>: 3.5% cumulative importance</li>
+</ul>
+<p>Despite having only 5 features, the early momentum category contributes 18.7% of model importance, demonstrating high feature efficiency <strong>(Figure 1, 7)</strong>.</p>
+<h3 id="34-model-architecture">3.4 Model Architecture</h3>
+<p><strong>Algorithm</strong>: CatBoostClassifier</p>
+<p><strong>Hyperparameters</strong> (tuned via grid search):</p>
+<pre class="shiki shiki-themes relative bg-neutral-200/30 dark:shadow-2xl code"><button aria-label="copy-button" class="copy-button absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit dark:text-gray-600 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path> <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path> </svg></button><span class="check-span absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-600 dark:text-green-400 max-w-full max-h-fit "><svg class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M5 12l5 5l10 -10"></path> </svg></span><code><span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">{</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">iterations</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1000</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">learning_rate</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.03</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">depth</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 6</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">l2_leaf_reg</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 3</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">border_count</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 254</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">random_strength</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">bagging_temperature</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.2</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">eval_metric</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#B5695999;--shiki-dark:#89DDFF"> &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">Precision</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">class_weights</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">1</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 3</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span><span style="color:#A0ADA0;--shiki-dark:#676E95;font-style:inherit;--shiki-dark-font-style:italic">  # Account for 2-3% class imbalance</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">early_stopping_rounds</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 50</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">}</span></span></code></pre> 
+<p><strong>Training</strong>: 120,000 samples, 4.2 minutes on CPU
+<strong>Validation</strong>: 30,000 held-out samples</p>
+<p><strong>Why CatBoost?</strong></p>
+<ol>
+<li>Excellent performance on tabular data with mixed feature types</li>
+<li>Built-in handling of class imbalance</li>
+<li>Interpretable feature importance</li>
+<li>No extensive hyperparameter tuning required</li>
+<li>Robust to outliers and missing data</li>
+</ol>
+<hr/>
+<h2 id="4-experiments">4. Experiments</h2>
+<h3 id="41-experimental-setup">4.1 Experimental Setup</h3>
+<p><strong>Hardware</strong>: 16-core CPU, 64GB RAM
+<strong>Software</strong>: Python 3.10, CatBoost 1.2, pandas 2.0
+<strong>Reproducibility</strong>: Fixed random seed (42), version-controlled feature engineering pipeline</p>
+<p><strong>Metrics</strong>:</p>
+<ul>
+<li><strong>Primary</strong>: Precision @ top-2150 (operational deployment threshold)</li>
+<li><strong>Secondary</strong>: AUC-ROC, Precision-Recall curves, top-K precision</li>
+</ul>
+<h3 id="42-baseline-model-v4">4.2 Baseline Model (V4)</h3>
+<p><strong>Configuration</strong>: 50 basic aggregation features, no windowed/momentum features</p>
+<p><strong>Performance</strong>:</p>
+<ul>
+<li>Precision @ top-2150: <strong>0.1620</strong></li>
+<li>AUC-ROC: 0.88</li>
+</ul>
+<p><strong>Baseline establishes</strong>: Simple statistics provide moderate signal, room for improvement.</p>
+<h3 id="43-model-evolution-v4-v12">4.3 Model Evolution (V4-V12)</h3>
+<p>We systematically explore feature engineering and hyperparameter choices. <strong>Figure 2</strong> visualizes performance across all model versions:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Version</th><th>Features</th><th>Key Changes</th><th>Precision</th><th>Δ vs V4</th></tr></thead><tbody><tr><td><strong>V4</strong></td><td>50</td><td>Baseline aggregations</td><td>0.1620</td><td>-</td></tr><tr><td><strong>V5</strong></td><td>95</td><td>+ Windows + momentum + whales</td><td><strong>0.18068</strong></td><td><strong>+11.5%</strong></td></tr><tr><td>V6</td><td>95</td><td>V5 + different threshold tuning</td><td>0.1750</td><td>+8.0%</td></tr><tr><td>V7</td><td>95</td><td>V5 + hyperparameter variation</td><td>0.1723</td><td>+6.4%</td></tr><tr><td>V9</td><td>103</td><td>V5 + 8 advanced order flow features</td><td>0.1689</td><td>+4.3%</td></tr><tr><td>V10</td><td>103</td><td>V9 with optimized training</td><td>0.1712</td><td>+5.7%</td></tr><tr><td><strong>V11</strong></td><td><strong>37</strong></td><td><strong>Feature selection (top 37 only)</strong></td><td><strong>0.1500</strong></td><td><strong>-7.4%</strong></td></tr><tr><td><strong>V12</strong></td><td>130</td><td>V5 + 35 network graph features</td><td>0.1600</td><td><strong>-1.2%</strong></td></tr></tbody></table>
+<p><strong>Key Observations</strong> (illustrated in <strong>Figure 2B</strong>):</p>
+<ol>
+<li><strong>V5 achieves best performance</strong> with 95 well-engineered features</li>
+<li><strong>No correlation between feature count and performance</strong>: V11 (37 features) and V12 (130 features) both underperform V5 (95 features)</li>
+<li><strong>Complexity ≠ better</strong>: Adding sophisticated network features (V12) does not improve over baseline</li>
+</ol>
+<p><img src="/assets/images/solana-research/figure2_model_comparison.png" alt="Figure 2: Model Performance Comparison"/>
+<em>Figure 2: (A) Precision comparison across 8 model versions. V5 achieves highest precision (0.18068). (B) Scatter plot shows no correlation between feature count and performance.</em></p>
+<h3 id="44-best-model-analysis-v5">4.4 Best Model Analysis (V5)</h3>
+<h4 id="441-performance-metrics">4.4.1 Performance Metrics</h4>
+<p><strong>Validation Set Performance</strong>:</p>
+<ul>
+<li>Precision @ top-2150: <strong>0.18068</strong> <strong>(Figure 2, 3)</strong></li>
+<li>AUC-ROC: <strong>0.91</strong> <strong>(Figure 6A)</strong></li>
+<li>Best threshold: <strong>0.95</strong> <strong>(Figure 6B)</strong></li>
+</ul>
+<p><strong>Precision @ top-K Analysis</strong> (visualized in <strong>Figure 3</strong>):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Top-K</th><th>Precision</th><th>Predicted Positives</th><th>True Positives</th></tr></thead><tbody><tr><td>1500</td><td>0.2013</td><td>1,500</td><td>302</td></tr><tr><td>1800</td><td>0.1933</td><td>1,800</td><td>348</td></tr><tr><td>2000</td><td>0.1875</td><td>2,000</td><td>375</td></tr><tr><td><strong>2150</strong></td><td><strong>0.18068</strong></td><td><strong>2,150</strong></td><td><strong>388</strong></td></tr><tr><td>2500</td><td>0.1720</td><td>2,500</td><td>430</td></tr><tr><td>3000</td><td>0.1567</td><td>3,000</td><td>470</td></tr></tbody></table>
+<p><strong>Figure 3</strong> demonstrates V5’s robust performance across all top-K thresholds, consistently outperforming baseline models by 10-20%.</p>
+<p><img src="/assets/images/solana-research/figure3_precision_topk.png" alt="Figure 3: Precision @ top-K Analysis"/>
+<em>Figure 3: Precision at different top-K thresholds. V5 consistently outperforms across all K values (1500-5000), achieving 7-8x better than random baseline.</em></p>
+<h4 id="442-feature-importance">4.4.2 Feature Importance</h4>
+<p><strong>Figure 1</strong> presents the top 30 features by CatBoost importance. Key findings:</p>
+<p><strong>Top 10 Most Important Features:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Rank</th><th>Feature</th><th>Importance</th><th>Cumulative %</th><th>Category</th></tr></thead><tbody><tr><td>1</td><td><code>market_cap_usd_min</code></td><td>7.08%</td><td>7.08%</td><td>Price Action</td></tr><tr><td>2</td><td><code>t_seconds_std</code></td><td>4.77%</td><td>11.85%</td><td>Temporal</td></tr><tr><td>3</td><td><code>buy_acceleration_5to10</code> ⭐</td><td>3.98%</td><td>15.82%</td><td><strong>Early Momentum</strong></td></tr><tr><td>4</td><td><code>holder_turnover</code> ⭐</td><td>3.70%</td><td>19.52%</td><td><strong>Whale Detection</strong></td></tr><tr><td>5</td><td><code>token_volume_max</code></td><td>3.35%</td><td>22.87%</td><td>Volume</td></tr><tr><td>6</td><td><code>sol_delta_mean</code></td><td>3.10%</td><td>25.97%</td><td>Trading</td></tr><tr><td>7</td><td><code>sol_delta_sum</code></td><td>2.66%</td><td>28.64%</td><td>Trading</td></tr><tr><td>8</td><td><code>sol_volume_mean</code></td><td>2.65%</td><td>31.29%</td><td>Volume</td></tr><tr><td>9</td><td><code>token_quantity_max</code></td><td>2.65%</td><td>33.94%</td><td>Volume</td></tr><tr><td>10</td><td><code>token_quantity_sum</code></td><td>2.61%</td><td>36.55%</td><td>Volume</td></tr></tbody></table>
+<p><strong>Key Insights from Figure 1:</strong></p>
+<ol>
+<li><strong>Top 20 features contribute 58.6%</strong> of total importance</li>
+<li><strong>Early momentum features</strong> (<code>buy_acceleration_5to10</code> rank 3, <code>early_volume_ratio_5s</code> rank 14) appear in top 15</li>
+<li><strong>Whale detection</strong> features (<code>holder_turnover</code>, <code>holder_diversity</code>, <code>holder_concentration</code>) cluster in top 20</li>
+<li><strong>Minimum market cap</strong> is the single most important feature (7.08%), suggesting P&amp;D schemes target low-valuation tokens</li>
+</ol>
+<p>Color coding in <strong>Figure 1</strong> reveals category clustering: early momentum (red bars) and whale detection (teal bars) dominate top ranks.</p>
+<p><img src="/assets/images/solana-research/figure1_feature_importance.png" alt="Figure 1: Feature Importance"/>
+<em>Figure 1: Top 30 features ranked by CatBoost importance. Early momentum (red) and whale detection (teal) features dominate top rankings. Top 20 features contribute 58.6% of total model importance.</em></p>
+<h4 id="443-threshold-analysis">4.4.3 Threshold Analysis</h4>
+<p><strong>Figure 6B</strong> visualizes the precision-recall tradeoff at different classification thresholds:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Threshold</th><th>Predictions</th><th>Precision</th><th>Recall</th></tr></thead><tbody><tr><td>0.85</td><td>4,523</td><td>0.1234</td><td>0.31</td></tr><tr><td>0.90</td><td>3,187</td><td>0.1489</td><td>0.26</td></tr><tr><td>0.92</td><td>2,756</td><td>0.1623</td><td>0.25</td></tr><tr><td>0.94</td><td>2,412</td><td>0.1745</td><td>0.23</td></tr><tr><td><strong>0.95</strong></td><td><strong>2,150</strong></td><td><strong>0.18068</strong></td><td><strong>0.22</strong></td></tr><tr><td>0.96</td><td>1,834</td><td>0.1923</td><td>0.20</td></tr><tr><td>0.97</td><td>1,523</td><td>0.2045</td><td>0.17</td></tr><tr><td>0.98</td><td>1,187</td><td>0.2189</td><td>0.14</td></tr></tbody></table>
+<p>The plot shows precision increasing monotonically with threshold (green line), while recall decreases (blue line). The number of predictions (orange dashed line, secondary Y-axis) decreases exponentially. <strong>Operational choice</strong>: threshold=0.95 balances precision (18%) with recall (22%).</p>
+<p><img src="/assets/images/solana-research/figure6_precision_recall_threshold.png" alt="Figure 6: Precision-Recall &#38; Threshold Analysis"/>
+<em>Figure 6: (A) Precision-Recall curves for V5, V4, and V11. V5 achieves AUC-ROC of 0.91. (B) Threshold selection tradeoff showing inverse relationship between precision and recall.</em></p>
+<h3 id="45-failed-experiments">4.5 Failed Experiments</h3>
+<h4 id="451-v11-aggressive-feature-selection">4.5.1 V11: Aggressive Feature Selection</h4>
+<p><strong>Hypothesis</strong>: Using only the top 37 features (cumulative importance <code>&gt; 90%</code>) will reduce noise and improve generalization.</p>
+<p><strong>Results</strong> (visualized in <strong>Figure 2, 3</strong>):</p>
+<ul>
+<li>Precision: <strong>0.1500</strong> (-7.4% vs V5)</li>
+<li><strong>Figure 3</strong> shows V11 (red dotted line) consistently underperforms across all top-K values</li>
+</ul>
+<p><strong>Analysis</strong>: <strong>Feature selection backfired</strong>. <strong>Figure 4</strong> ablation study shows removing features harms performance, even when individual importance appears low. Tree-based models benefit from redundant features that enable alternative splitting paths.</p>
+<p><strong>Lesson</strong>: Cumulative feature importance can be misleading. In ensemble models, low-importance features still contribute through alternative decision paths.</p>
+<h4 id="452-v12-network-graph-features">4.5.2 V12: Network Graph Features</h4>
+<p><strong>Hypothesis</strong>: Adding 35 network-based features (holder graphs, transaction networks, PageRank, clustering coefficients) will capture coordination patterns.</p>
+<p><strong>Results</strong> (visualized in <strong>Figure 2, 3</strong>):</p>
+<ul>
+<li>Precision: <strong>0.1600</strong> (-1.2% vs V5)</li>
+<li><strong>Figure 2B</strong> scatter plot shows V12 (130 features) does not improve despite 37% more features than V5</li>
+</ul>
+<p><strong>Analysis</strong>: Network features require longer observation windows (minutes, not seconds) to stabilize. In 30-second windows, holder graphs are too sparse to provide meaningful signal. <strong>Figure 2</strong> clearly demonstrates: <strong>more features ≠ better performance</strong>.</p>
+<p><strong>Lesson</strong>: Feature complexity must match data availability. For ultra-short time horizons, simple temporal aggregations outperform sophisticated graph features.</p>
+<hr/>
+<h2 id="5-ablation-study">5. Ablation Study</h2>
+<h3 id="51-impact-of-feature-categories">5.1 Impact of Feature Categories</h3>
+<p>We systematically remove each feature category from V5 to measure its contribution. <strong>Figure 4</strong> presents ablation results:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Configuration</th><th>Features</th><th>Precision</th><th>Δ vs V5</th></tr></thead><tbody><tr><td><strong>V5 (Full)</strong></td><td>95</td><td><strong>0.18068</strong></td><td>-</td></tr><tr><td>V5 - Windowed</td><td>71 (-24)</td><td>0.1523</td><td><strong>-15.7%</strong></td></tr><tr><td>V5 - Early Momentum</td><td>90 (-5)</td><td>0.1678</td><td>-7.1%</td></tr><tr><td>V5 - Whale Detection</td><td>91 (-4)</td><td>0.1712</td><td>-5.3%</td></tr><tr><td>V5 - Price Action</td><td>91 (-4)</td><td>0.1734</td><td>-4.0%</td></tr><tr><td>V5 - Composite</td><td>85 (-10)</td><td>0.1689</td><td>-6.5%</td></tr></tbody></table>
+<p><strong>Figure 4A</strong> (left panel) shows absolute precision values, while <strong>Figure 4B</strong> (right panel) visualizes percentage changes. <strong>Windowed features are most critical</strong> (-15.7% when removed), validating our hypothesis that temporal aggregation at multiple scales is essential for detecting coordination patterns.</p>
+<p><strong>Key Insights</strong>:</p>
+<ol>
+<li>All feature categories contribute positively (all removals decrease performance)</li>
+<li>Windowed features provide 3x more impact than any other category</li>
+<li>Early momentum (5 features) contributes more than composite features (10 features), demonstrating feature efficiency</li>
+</ol>
+<p><img src="/assets/images/solana-research/figure4_ablation_study.png" alt="Figure 4: Ablation Study Results"/>
+<em>Figure 4: Ablation study results. (A) Absolute precision when removing feature categories. (B) Percentage change showing windowed features contribute 15.7% of total performance.</em></p>
+<h3 id="52-impact-of-time-windows">5.2 Impact of Time Windows</h3>
+<p>We test different window configurations to find optimal temporal granularity. <strong>Figure 5</strong> shows results:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Windows</th><th>Precision</th><th>Note</th></tr></thead><tbody><tr><td>None</td><td>0.1523</td><td>Baseline (no windows)</td></tr><tr><td><code>{5s, 10s}</code></td><td>0.1656</td><td>Two windows</td></tr><tr><td><code>{5s, 10s, 15s}</code></td><td>0.1745</td><td>Three windows</td></tr><tr><td><strong><code>{5s, 10s, 15s, 20s}</code></strong></td><td><strong>0.18068</strong></td><td><strong>Four windows (V5)</strong> ⭐</td></tr><tr><td><code>{5s, 10s, 15s, 20s, 25s}</code></td><td>0.1798</td><td>Diminishing returns</td></tr></tbody></table>
+<p><strong>Figure 5</strong> visualizes the progression from 0 to 5 windows (color gradient from red to green to blue). Performance plateaus at 4 windows, with the 25s window providing minimal benefit (+0.3% relative vs 4 windows). This suggests <strong>coordination signals concentrate in the first 20 seconds</strong>.</p>
+<p><strong>Implications</strong>:</p>
+<ol>
+<li>Multi-scale temporal analysis is critical (18.6% relative improvement)</li>
+<li>Optimal granularity: 4-5 time scales for 30-second windows</li>
+<li>Diminishing returns after 20 seconds suggest coordination is front-loaded</li>
+</ol>
+<p><img src="/assets/images/solana-research/figure5_window_impact.png" alt="Figure 5: Time Window Impact"/>
+<em>Figure 5: Impact of time window granularity. Optimal configuration uses 4 windows (5s, 10s, 15s, 20s). Diminishing returns after 20 seconds indicate coordination signals concentrate early.</em></p>
+<h3 id="53-impact-of-training-data-size">5.3 Impact of Training Data Size</h3>
+<p>We analyze how model performance scales with training data. <strong>Figure 8</strong> studies data efficiency:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Training Samples</th><th>Precision</th><th>Training Time</th></tr></thead><tbody><tr><td>10,000</td><td>0.1234</td><td>0.5 min</td></tr><tr><td>30,000</td><td>0.1478</td><td>1.2 min</td></tr><tr><td>60,000</td><td>0.1623</td><td>2.1 min</td></tr><tr><td>120,000</td><td>0.1756</td><td>3.8 min</td></tr><tr><td><strong>150,000 (Full)</strong></td><td><strong>0.18068</strong></td><td><strong>4.2 min</strong></td></tr></tbody></table>
+<p><strong>Figure 8A</strong> shows performance scales logarithmically with data (green curve), while <strong>Figure 8B</strong> shows training time scales linearly (orange curve). Doubling data from 60K to 120K provides +8.2% relative improvement. This suggests <strong>collecting more training data</strong> (October/November launches) could further improve precision toward 0.19-0.20.</p>
+<p><strong>Implications</strong>:</p>
+<ol>
+<li>Model has not saturated; more data will help</li>
+<li>Training remains efficient even at 150K samples (<code>&lt;5</code> minutes)</li>
+<li>Logarithmic scaling suggests ~300K samples needed for 0.20 precision</li>
+</ol>
+<p><img src="/assets/images/solana-research/figure8_data_size_impact.png" alt="Figure 8: Training Data Size Impact"/>
+<em>Figure 8: Training data size impact. (A) Precision scales logarithmically with data, suggesting room for improvement. (B) Training time scales linearly, remaining under 5 minutes even at full dataset.</em></p>
+<hr/>
+<h2 id="6-discussion">6. Discussion</h2>
+<h3 id="61-key-findings">6.1 Key Findings</h3>
+<p>Our experiments reveal several important insights about pump-and-dump detection:</p>
+<h4 id="611-coordination-leaves-detectable-footprints">6.1.1 Coordination Leaves Detectable Footprints</h4>
+<p><strong>Figure 1</strong> feature importance reveals distinctive patterns:</p>
+<ol>
+<li><strong>Concentrated early buying</strong>: <code>buy_acceleration_5to10</code> (rank 3, 3.98%) captures coordinated group entry in first 5-10 seconds</li>
+<li><strong>High holder turnover</strong>: <code>holder_turnover</code> (rank 4, 3.70%) indicates rapid entry and exit characteristic of coordination</li>
+<li><strong>Low initial market cap</strong>: <code>market_cap_usd_min</code> (rank 1, 7.08%) suggests schemes target low-value tokens for easier manipulation</li>
+<li><strong>Front-loaded volume</strong>: <code>early_volume_ratio_5s</code> (rank 14, 2.32%) shows disproportionate first-5-second activity</li>
+</ol>
+<p>These top-ranked features (<strong>Figure 1</strong>, red and teal bars) align with theoretical models of coordination: groups coordinate entry timing (early acceleration), maintain tight holder concentration (turnover), and target low-liquidity tokens (min market cap).</p>
+<h4 id="612-simple-features-outperform-complex-features">6.1.2 Simple Features Outperform Complex Features</h4>
+<p><strong>Figure 2B</strong> scatter plot definitively shows no correlation between feature count and performance:</p>
+<ul>
+<li>V5 (95 features): 0.18068 precision</li>
+<li>V11 (37 features): 0.1500 precision (-7.4%)</li>
+<li>V12 (130 features): 0.1600 precision (-1.2%)</li>
+</ul>
+<p>This validates the principle: <strong>Match feature complexity to data availability</strong>. For 30-second windows:</p>
+<ul>
+<li>✅ Simple temporal aggregations (mean, std, min, max) work well</li>
+<li>✅ Multi-scale windowing (5s/10s/15s/20s) captures coordination</li>
+<li>❌ Network graph features too sparse to be useful</li>
+<li>❌ Feature selection removes helpful redundancy</li>
+</ul>
+<h4 id="613-feature-context-matters-for-tree-models">6.1.3 Feature Context Matters for Tree Models</h4>
+<p><strong>Figure 4</strong> ablation study shows that removing even low-importance feature categories harms performance. V11’s failure (removing 58 features → -7.4% precision) contradicts naive feature selection intuition. In tree-based models:</p>
+<ul>
+<li>Low-importance features still provide <strong>alternative splitting paths</strong></li>
+<li><strong>Figure 4B</strong> shows all categories contribute positively (all bars negative when removed)</li>
+<li>Cumulative importance can be misleading in ensemble models</li>
+<li>Feature interactions mean redundancy is beneficial</li>
+</ul>
+<p>This aligns with gradient boosting theory: later trees exploit low-importance features for fine-grained splits.</p>
+<h4 id="614-temporal-granularity-is-critical">6.1.4 Temporal Granularity is Critical</h4>
+<p><strong>Figure 5</strong> demonstrates that multi-scale temporal analysis is essential:</p>
+<ul>
+<li>No windows: 0.1523 precision</li>
+<li>4 windows (5s/10s/15s/20s): 0.18068 precision (+18.6% relative)</li>
+<li><strong>Optimal granularity</strong>: 4-5 time scales for 30-second window</li>
+</ul>
+<p>The progression (<strong>Figure 5</strong>, gradient coloring) shows smooth performance improvement plateauing at 4 windows. This suggests:</p>
+<ul>
+<li>Coordination patterns evolve across multiple time scales</li>
+<li>Capturing both immediate (5s) and sustained (20s) activity is critical</li>
+<li>Signals stabilize within first 20 seconds (diminishing returns after)</li>
+</ul>
+<h3 id="62-practical-implications">6.2 Practical Implications</h3>
+<h4 id="621-real-time-deployment">6.2.1 Real-Time Deployment</h4>
+<p>Our model processes 150K tokens in ~4 minutes (batch inference). For real-time deployment:</p>
+<p><strong>Latency</strong>: Single token inference <code>&lt;10ms</code>
+<strong>Throughput</strong>: ~100 tokens/second
+<strong>Infrastructure</strong>: CPU-only (no GPU required)</p>
+<p><strong>Operational workflow</strong>:</p>
+<ol>
+<li>Monitor new token launches on pump.fun</li>
+<li>Collect first 30 seconds of trading data</li>
+<li>Compute 95 features (vectorized, <code>&lt;1ms</code>)</li>
+<li>Run CatBoost inference (<code>&lt;10ms</code>)</li>
+<li>Flag tokens with prediction <code>&gt; 0.95</code> threshold</li>
+</ol>
+<p><strong>Cost-benefit</strong>: At 18% precision, flagging 2,150 tokens identifies 388 true pump-and-dumps. Cost of false positives (legitimate projects flagged) must be weighed against investor protection.</p>
+<h4 id="622-investor-protection">6.2.2 Investor Protection</h4>
+<p><strong>Use cases</strong>:</p>
+<ol>
+<li><strong>Warning labels</strong>: Display risk scores on token pages</li>
+<li><strong>Trade restrictions</strong>: Require additional confirmations for high-risk tokens</li>
+<li><strong>Educational alerts</strong>: Notify users of P&amp;D characteristics when detected</li>
+<li><strong>Market surveillance</strong>: Aggregate data for regulatory reporting</li>
+</ol>
+<p><strong>Limitations</strong>:</p>
+<ul>
+<li>22% recall means 78% of pumps are missed (false negatives)</li>
+<li>Sophisticated groups may adapt to evade detection</li>
+<li>Model requires retraining as manipulation tactics evolve</li>
+</ul>
+<h4 id="623-ethical-considerations">6.2.3 Ethical Considerations</h4>
+<p><strong>Transparency</strong>: Model predictions should be explainable to users
+<strong>False positives</strong>: Legitimate projects may be wrongly flagged, harming reputation
+<strong>Gaming</strong>: Publicizing exact features may enable adversarial evasion</p>
+<p><strong>Best practices</strong>:</p>
+<ul>
+<li>Provide appeals process for flagged tokens</li>
+<li>Combine ML predictions with human review</li>
+<li>Continuously monitor model drift and retrain quarterly</li>
+</ul>
+<h3 id="63-limitations">6.3 Limitations</h3>
+<h4 id="631-data-constraints">6.3.1 Data Constraints</h4>
+<ul>
+<li><strong>Single platform</strong>: Only pump.fun data; patterns may differ on other DEXs</li>
+<li><strong>Single month</strong>: September 2024 only; seasonality and trend shifts not captured</li>
+<li><strong>Labeling uncertainty</strong>: Manual labeling introduces noise (~5% label error rate)</li>
+</ul>
+<h4 id="632-model-constraints">6.3.2 Model Constraints</h4>
+<ul>
+<li><strong>Short time window</strong>: 30 seconds may miss slow-burn schemes</li>
+<li><strong>Static features</strong>: Model does not adapt to evolving manipulation tactics</li>
+<li><strong>Class imbalance</strong>: 2-3% positive rate limits recall ceiling</li>
+</ul>
+<h4 id="633-adversarial-robustness">6.3.3 Adversarial Robustness</h4>
+<p>If attackers know model features, they could:</p>
+<ol>
+<li>Spread buying over 30+ seconds to reduce <code>buy_acceleration</code></li>
+<li>Distribute holdings across more wallets to lower <code>holder_concentration</code></li>
+<li>Add decoy transactions to pollute aggregation statistics</li>
+</ol>
+<p><strong>Countermeasures</strong>:</p>
+<ul>
+<li>Ensemble multiple models with different feature sets</li>
+<li>Introduce randomization in feature computation</li>
+<li>Continuously retrain on newest data</li>
+</ul>
+<hr/>
+<h2 id="7-conclusion-and-future-work">7. Conclusion and Future Work</h2>
+<h3 id="71-summary">7.1 Summary</h3>
+<p>This paper presents a machine learning framework for early detection of pump-and-dump schemes in Solana token markets using 30-second trading windows. Our key contributions, supported by comprehensive visualizations (<strong>Figures 1-8</strong>), include:</p>
+<ol>
+<li>
+<p><strong>Comprehensive Feature Engineering</strong> (<strong>Figure 1, 7</strong>): 95 features across 5 categories optimized for ultra-short time horizons.</p>
+</li>
+<li>
+<p><strong>Empirical Validation</strong> (<strong>Figure 2-3</strong>): Systematic evaluation across 8 model versions demonstrates simple temporal aggregations outperform complex features by 10-20%.</p>
+</li>
+<li>
+<p><strong>Best Model (V5)</strong> (<strong>Figure 1-3, 6</strong>): Achieves 0.18068 precision (7.2x better than random) using CatBoost with carefully tuned hyperparameters.</p>
+</li>
+<li>
+<p><strong>Ablation Insights</strong> (<strong>Figure 4-5, 8</strong>):</p>
+<ul>
+<li>Windowed features contribute 15.7% of performance</li>
+<li>Optimal temporal granularity: 4 windows (5s, 10s, 15s, 20s)</li>
+<li>Feature selection can harm tree-based models</li>
+<li>Training data scales logarithmically</li>
+</ul>
+</li>
+<li>
+<p><strong>Threshold Analysis</strong> (<strong>Figure 6</strong>): Precision-recall tradeoffs guide operational deployment (threshold=0.95 balances 18% precision with 22% recall).</p>
+</li>
+</ol>
+<h3 id="72-figure-summary">7.2 Figure Summary</h3>
+<p>Our 8 figures provide comprehensive empirical evidence:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Figure</th><th>Key Insight</th></tr></thead><tbody><tr><td><strong>1</strong></td><td>Early momentum &amp; whale features dominate (top 20 contribute 58.6%)</td></tr><tr><td><strong>2</strong></td><td>Feature quality <code>&gt;</code> quantity; V5 optimal with 95 features</td></tr><tr><td><strong>3</strong></td><td>V5 robust across all top-K thresholds (7-8x better than random)</td></tr><tr><td><strong>4</strong></td><td>Windowed features most critical (-15.7% when removed)</td></tr><tr><td><strong>5</strong></td><td>4 time windows optimal; diminishing returns after 20s</td></tr><tr><td><strong>6</strong></td><td>Threshold=0.95 balances precision (18%) with recall (22%)</td></tr><tr><td><strong>7</strong></td><td>5 momentum features deliver 18.7% importance (high efficiency)</td></tr><tr><td><strong>8</strong></td><td>Logarithmic scaling suggests more data beneficial</td></tr></tbody></table>
+<p><img src="/assets/images/solana-research/figure7_category_distribution.png" alt="Figure 7: Feature Category Distribution"/>
+<em>Figure 7: Feature distribution. (A) Feature count by category. (B) Cumulative importance pie chart showing basic and windowed features contribute 60.8% of total importance.</em></p>
+<h3 id="73-future-work">7.3 Future Work</h3>
+<h4 id="731-data-expansion">7.3.1 Data Expansion</h4>
+<ul>
+<li><strong>Multi-month training</strong>: Collect October-December 2024 data to reach ~300K training samples</li>
+<li><strong>Cross-platform validation</strong>: Test on Raydium, Uniswap, PancakeSwap launches</li>
+<li><strong>Label refinement</strong>: Incorporate on-chain forensics and community reports</li>
+</ul>
+<h4 id="732-model-improvements">7.3.2 Model Improvements</h4>
+<p><strong>Ensemble methods</strong>: Combine CatBoost with XGBoost and LightGBM
+<strong>Deep learning</strong>: Test LSTMs on transaction sequences
+<strong>Semi-supervised learning</strong>: Leverage unlabeled tokens via pseudo-labeling
+<strong>Online learning</strong>: Continuous model updates as new tokens launch</p>
+<h4 id="733-feature-engineering">7.3.3 Feature Engineering</h4>
+<ul>
+<li><strong>Order book dynamics</strong>: Bid-ask spreads, order imbalance (requires DEX data)</li>
+<li><strong>Social signals</strong>: Telegram/Discord activity correlation</li>
+<li><strong>Cross-token patterns</strong>: Multi-token coordination detection</li>
+<li><strong>Temporal embeddings</strong>: Learned representations of transaction sequences</li>
+</ul>
+<h4 id="734-operational-deployment">7.3.4 Operational Deployment</h4>
+<ul>
+<li><strong>API service</strong>: Real-time risk scoring endpoint</li>
+<li><strong>Dashboard</strong>: Live monitoring of token launches with risk flags</li>
+<li><strong>A/B testing</strong>: Measure impact on user behavior when warnings displayed</li>
+<li><strong>Feedback loop</strong>: Collect user reports to improve labeling</li>
+</ul>
+<h3 id="74-broader-impact">7.4 Broader Impact</h3>
+<p><strong>Investor protection</strong>: Reduces retail losses from pump-and-dump schemes
+<strong>Market integrity</strong>: Discourages manipulation by increasing detection risk
+<strong>Regulatory compliance</strong>: Provides data for market surveillance and enforcement
+<strong>Research contribution</strong>: Open-sources feature engineering framework for community use</p>
+<p><strong>Risks</strong>:</p>
+<ul>
+<li>False positives may harm legitimate projects</li>
+<li>Sophisticated attackers may adapt to evade detection</li>
+<li>Arms race between detectors and manipulators</li>
+</ul>
+<h3 id="75-roadmap-to-028-precision">7.5 Roadmap to 0.28+ Precision</h3>
+<p>Based on <strong>Figure 8</strong> logarithmic scaling, we project:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Milestone</th><th>Training Data</th><th>Estimated Precision</th><th>Timeline</th></tr></thead><tbody><tr><td>Current (V5)</td><td>150K</td><td>0.18068</td><td>✅ Complete</td></tr><tr><td>Phase 2</td><td>300K</td><td>0.19-0.20</td><td>Q1 2025</td></tr><tr><td>Phase 3</td><td>500K + ensemble</td><td>0.22-0.24</td><td>Q2 2025</td></tr><tr><td>Phase 4</td><td>1M + deep learning</td><td>0.28+</td><td>Q3 2025</td></tr></tbody></table>
+<p><strong>Key enablers</strong>:</p>
+<ol>
+<li>Multi-month data collection (October-December 2024)</li>
+<li>Model ensembling (CatBoost + XGBoost + LSTM)</li>
+<li>Social signal integration (Telegram/Discord)</li>
+<li>Advanced feature engineering (order book, cross-token)</li>
+</ol>
+<hr/>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>We thank the Solana community and pump.fun platform for providing accessible on-chain data. We acknowledge the CatBoost development team for their excellent gradient boosting framework. This research was conducted using publicly available blockchain data and does not constitute financial advice.</p>
+<hr/>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p>Kamps, J., &amp; Kleinberg, B. (2018). To the moon: defining and detecting cryptocurrency pump-and-dumps. <em>Crime Science</em>, 7(1), 18.</p>
+</li>
+<li>
+<p>La Morgia, M., Mei, A., Sassi, F., &amp; Stefa, J. (2020). Pump and dumps in the Bitcoin era: Real time detection of cryptocurrency market manipulations. <em>29th ACM International Conference on Information &amp; Knowledge Management</em>.</p>
+</li>
+<li>
+<p>Xu, J., &amp; Livshits, B. (2019). The anatomy of a cryptocurrency pump-and-dump scheme. <em>28th USENIX Security Symposium</em>.</p>
+</li>
+<li>
+<p>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. <em>22nd ACM SIGKDD Conference</em>.</p>
+</li>
+<li>
+<p>Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., &amp; Gulin, A. (2018). CatBoost: unbiased boosting with categorical features. <em>Advances in Neural Information Processing Systems</em>, 31.</p>
+</li>
+<li>
+<p>Cartea, Á., Jaimungal, S., &amp; Penalva, J. (2015). <em>Algorithmic and high-frequency trading</em>. Cambridge University Press.</p>
+</li>
+<li>
+<p>O’Hara, M. (2015). High frequency market microstructure. <em>Journal of Financial Economics</em>, 116(2), 257-270.</p>
+</li>
+<li>
+<p>Hasbrouck, J., &amp; Saar, G. (2013). Low-latency trading. <em>Journal of Financial Markets</em>, 16(4), 646-679.</p>
+</li>
+<li>
+<p>Easley, D., López de Prado, M. M., &amp; O’Hara, M. (2012). Flow toxicity and liquidity in a high-frequency world. <em>Review of Financial Studies</em>, 25(5), 1457-1493.</p>
+</li>
+<li>
+<p>Aggarwal, R. K., &amp; Wu, G. (2006). Stock market manipulations. <em>Journal of Business</em>, 79(4), 1915-1953.</p>
+</li>
+</ol>
+<hr/>
+<h2 id="appendix-a-complete-feature-list">Appendix A: Complete Feature List</h2>
+<p><strong>Basic Aggregations (48 features)</strong>:</p>
+<p><em>Volume Features (12)</em>: <code>sol_volume_{min,max,mean,std,sum,median}</code>, <code>token_volume_{min,max,mean,std,sum,median}</code></p>
+<p><em>Trading Features (12)</em>: <code>sol_delta_{min,max,mean,std,sum,median}</code>, <code>token_quantity_{min,max,mean,std,sum,median}</code></p>
+<p><em>Temporal Features (12)</em>: <code>t_seconds_{min,max,mean,std,sum,median}</code>, <code>transaction_count_{min,max,mean,std,sum,median}</code></p>
+<p><em>Holder Features (12)</em>: <code>unique_holders_{min,max,mean,std,sum,median}</code>, <code>holder_balance_{min,max,mean,std,sum,median}</code></p>
+<p><strong>Windowed Features (24 features)</strong>:</p>
+<p>For windows <code>w ∈ {5s, 10s, 15s, 20s}</code>:</p>
+<ul>
+<li><code>buy_count_w</code></li>
+<li><code>volume_w</code></li>
+<li><code>unique_holders_w</code></li>
+<li><code>avg_transaction_size_w</code></li>
+<li><code>price_change_w</code></li>
+<li><code>holder_growth_rate_w</code></li>
+</ul>
+<p><strong>Early Momentum (5 features)</strong>:</p>
+<ul>
+<li><code>buy_acceleration_5to10</code></li>
+<li><code>volume_acceleration_5to10</code></li>
+<li><code>buy_acceleration_10to20</code></li>
+<li><code>early_volume_ratio_5s</code></li>
+<li><code>early_volume_ratio_10s</code></li>
+</ul>
+<p><strong>Whale Detection (4 features)</strong>:</p>
+<ul>
+<li><code>holder_concentration</code></li>
+<li><code>holder_diversity</code></li>
+<li><code>holder_turnover</code></li>
+<li><code>whale_volume_pct</code></li>
+</ul>
+<p><strong>Price Action (4 features)</strong>:</p>
+<ul>
+<li><code>market_cap_usd_{min,max,mean,std}</code></li>
+</ul>
+<p><strong>Composite Features (10 features)</strong>:</p>
+<ul>
+<li><code>volume_volatility</code></li>
+<li><code>price_momentum</code></li>
+<li><code>liquidity_depth</code></li>
+<li><code>transaction_density</code></li>
+<li><code>volume_per_holder</code></li>
+<li><code>avg_holder_value</code></li>
+<li><code>price_efficiency</code></li>
+<li><code>momentum_consistency</code></li>
+<li><code>volume_concentration</code></li>
+<li><code>temporal_clustering</code></li>
+</ul>
+<hr/>
+<h2 id="appendix-b-hyperparameter-tuning">Appendix B: Hyperparameter Tuning</h2>
+<p><strong>Grid search space</strong> (5-fold cross-validation):</p>
+<pre class="shiki shiki-themes relative bg-neutral-200/30 dark:shadow-2xl code"><button aria-label="copy-button" class="copy-button absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit dark:text-gray-600 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path> <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path> </svg></button><span class="check-span absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-600 dark:text-green-400 max-w-full max-h-fit "><svg class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M5 12l5 5l10 -10"></path> </svg></span><code><span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">param_grid </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#999999;--shiki-dark:#89DDFF"> {</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">iterations</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">500</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1000</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1500</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">learning_rate</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.01</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.03</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.05</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.1</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">depth</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">4</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 6</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 8</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 10</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">l2_leaf_reg</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">1</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 3</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 7</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">border_count</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">32</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 64</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 128</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 254</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">random_strength</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.2</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1.0</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">bagging_temperature</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#999999;--shiki-dark:#89DDFF"> [</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.0</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.2</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1.0</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">}</span></span></code></pre> 
+<p><strong>Best parameters</strong> (selected via precision @ top-2150):</p>
+<pre class="shiki shiki-themes relative bg-neutral-200/30 dark:shadow-2xl code"><button aria-label="copy-button" class="copy-button absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit dark:text-gray-600 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path> <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path> </svg></button><span class="check-span absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-600 dark:text-green-400 max-w-full max-h-fit "><svg class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M5 12l5 5l10 -10"></path> </svg></span><code><span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">{</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">iterations</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 1000</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">learning_rate</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.03</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">depth</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 6</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">l2_leaf_reg</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 3</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">border_count</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 254</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">random_strength</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">bagging_temperature</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 0.2</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">}</span></span></code></pre> 
+<p><strong>Tuning insights</strong>:</p>
+<ul>
+<li>Deeper trees (depth=8+) overfit on small positive class</li>
+<li>Lower learning rates (0.01-0.03) improve generalization</li>
+<li>Higher border_count (254) helps with continuous features</li>
+<li>Moderate bagging (0.2) reduces variance without sacrificing bias</li>
+</ul>
+<p><strong>Total tuning time</strong>: ~8 hours on 16-core CPU</p>
+<hr/>
+<h2 id="appendix-c-code-snippets">Appendix C: Code Snippets</h2>
+<h3 id="feature-engineering-vectorized">Feature Engineering (Vectorized)</h3>
+<pre class="shiki shiki-themes relative bg-neutral-200/30 dark:shadow-2xl code"><button aria-label="copy-button" class="copy-button absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit dark:text-gray-600 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path> <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path> </svg></button><span class="check-span absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-600 dark:text-green-400 max-w-full max-h-fit "><svg class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M5 12l5 5l10 -10"></path> </svg></span><code><span class="line"><span style="color:#AB5959;--shiki-dark:#C792EA">def</span><span style="color:#59873A;--shiki-dark:#82AAFF"> compute_windowed_features</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span><span style="color:#393A34;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">df</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#393A34;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic"> windows</span><span style="color:#AB5959;--shiki-dark:#89DDFF">=</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#2F798A;--shiki-dark:#F78C6C">5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 10</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 15</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 20</span><span style="color:#999999;--shiki-dark:#89DDFF">]):</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">    &quot;&quot;&quot;</span><span style="color:#B56959;--shiki-dark:#676E95;font-style:inherit;--shiki-dark-font-style:italic">Vectorized window feature computation.</span><span style="color:#B5695999;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">    features </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#BABED8"> pd</span><span style="color:#999999;--shiki-dark:#89DDFF">.</span><span style="color:#393A34;--shiki-dark:#82AAFF">DataFrame</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">index</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#82AAFF">df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">token_id</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">].</span><span style="color:#393A34;--shiki-dark:#82AAFF">unique</span><span style="color:#999999;--shiki-dark:#89DDFF">())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1E754F;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">    for</span><span style="color:#393A34;--shiki-dark:#BABED8"> w </span><span style="color:#1E754F;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">in</span><span style="color:#393A34;--shiki-dark:#BABED8"> windows</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        mask </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#BABED8"> df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">t_seconds</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#AB5959;--shiki-dark:#89DDFF"> &lt;=</span><span style="color:#393A34;--shiki-dark:#BABED8"> w</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        window_df </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#BABED8"> df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#393A34;--shiki-dark:#BABED8">mask</span><span style="color:#999999;--shiki-dark:#89DDFF">].</span><span style="color:#393A34;--shiki-dark:#82AAFF">groupby</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">token_id</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">).</span><span style="color:#393A34;--shiki-dark:#82AAFF">agg</span><span style="color:#999999;--shiki-dark:#89DDFF">({</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">            &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">transaction_count</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#B5695999;--shiki-dark:#89DDFF"> &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">sum</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">            &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">sol_volume</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#B5695999;--shiki-dark:#89DDFF"> &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">sum</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">            &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">unique_holders</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#B5695999;--shiki-dark:#89DDFF"> &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">nunique</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">            &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">price</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#B5695999;--shiki-dark:#89DDFF"> &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">last</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">        })</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#AB5959;--shiki-dark:#C792EA">f</span><span style="color:#B56959;--shiki-dark:#C3E88D">&#39;buy_count_</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">{</span><span style="color:#393A34;--shiki-dark:#BABED8">w</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">}</span><span style="color:#B56959;--shiki-dark:#C3E88D">s&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#999999;--shiki-dark:#89DDFF"> =</span><span style="color:#393A34;--shiki-dark:#BABED8"> window_df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">transaction_count</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#AB5959;--shiki-dark:#C792EA">f</span><span style="color:#B56959;--shiki-dark:#C3E88D">&#39;volume_</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">{</span><span style="color:#393A34;--shiki-dark:#BABED8">w</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">}</span><span style="color:#B56959;--shiki-dark:#C3E88D">s&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#999999;--shiki-dark:#89DDFF"> =</span><span style="color:#393A34;--shiki-dark:#BABED8"> window_df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">sol_volume</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#AB5959;--shiki-dark:#C792EA">f</span><span style="color:#B56959;--shiki-dark:#C3E88D">&#39;unique_holders_</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">{</span><span style="color:#393A34;--shiki-dark:#BABED8">w</span><span style="color:#A65E2B;--shiki-dark:#F78C6C">}</span><span style="color:#B56959;--shiki-dark:#C3E88D">s&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#999999;--shiki-dark:#89DDFF"> =</span><span style="color:#393A34;--shiki-dark:#BABED8"> window_df</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">unique_holders</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A0ADA0;--shiki-dark:#676E95;font-style:inherit;--shiki-dark-font-style:italic">    # Acceleration ratios</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">    features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">buy_acceleration_5to10</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#999999;--shiki-dark:#89DDFF"> =</span><span style="color:#999999;--shiki-dark:#89DDFF"> (</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">        features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">buy_count_10s</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">]</span><span style="color:#AB5959;--shiki-dark:#89DDFF"> /</span><span style="color:#393A34;--shiki-dark:#BABED8"> features</span><span style="color:#999999;--shiki-dark:#89DDFF">[</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">buy_count_5s</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">].</span><span style="color:#393A34;--shiki-dark:#82AAFF">clip</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">lower</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">1</span><span style="color:#999999;--shiki-dark:#89DDFF">)</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">    )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1E754F;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">    return</span><span style="color:#393A34;--shiki-dark:#BABED8"> features</span></span></code></pre> 
+<h3 id="catboost-training">CatBoost Training</h3>
+<pre class="shiki shiki-themes relative bg-neutral-200/30 dark:shadow-2xl code"><button aria-label="copy-button" class="copy-button absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit dark:text-gray-600 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path> <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path> </svg></button><span class="check-span absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-600 dark:text-green-400 max-w-full max-h-fit "><svg class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M5 12l5 5l10 -10"></path> </svg></span><code><span class="line"><span style="color:#1E754F;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">from</span><span style="color:#393A34;--shiki-dark:#BABED8"> catboost </span><span style="color:#1E754F;--shiki-dark:#89DDFF;font-style:inherit;--shiki-dark-font-style:italic">import</span><span style="color:#393A34;--shiki-dark:#BABED8"> CatBoostClassifier</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">model </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#82AAFF"> CatBoostClassifier</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    iterations</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">1000</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    learning_rate</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.03</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    depth</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">6</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    l2_leaf_reg</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">3</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    border_count</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">254</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    random_strength</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.5</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    bagging_temperature</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">0.2</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    eval_metric</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">Precision</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    class_weights</span><span style="color:#999999;--shiki-dark:#89DDFF">=[</span><span style="color:#2F798A;--shiki-dark:#F78C6C">1</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#2F798A;--shiki-dark:#F78C6C"> 3</span><span style="color:#999999;--shiki-dark:#89DDFF">],</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    early_stopping_rounds</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">50</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    random_seed</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">42</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    verbose</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#2F798A;--shiki-dark:#F78C6C">100</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">model</span><span style="color:#999999;--shiki-dark:#89DDFF">.</span><span style="color:#393A34;--shiki-dark:#82AAFF">fit</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#82AAFF">    X_train</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#393A34;--shiki-dark:#82AAFF"> y_train</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    eval_set</span><span style="color:#999999;--shiki-dark:#89DDFF">=(</span><span style="color:#393A34;--shiki-dark:#82AAFF">X_val</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#393A34;--shiki-dark:#82AAFF"> y_val</span><span style="color:#999999;--shiki-dark:#89DDFF">),</span></span>
+<span class="line"><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic">    use_best_model</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#1E754F;--shiki-dark:#89DDFF">True</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A0ADA0;--shiki-dark:#676E95;font-style:inherit;--shiki-dark-font-style:italic"># Feature importance</span></span>
+<span class="line"><span style="color:#393A34;--shiki-dark:#BABED8">importance_df </span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#393A34;--shiki-dark:#BABED8"> pd</span><span style="color:#999999;--shiki-dark:#89DDFF">.</span><span style="color:#393A34;--shiki-dark:#82AAFF">DataFrame</span><span style="color:#999999;--shiki-dark:#89DDFF">({</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">feature</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#393A34;--shiki-dark:#82AAFF"> model</span><span style="color:#999999;--shiki-dark:#89DDFF">.</span><span style="color:#393A34;--shiki-dark:#F07178">feature_names_</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span></span>
+<span class="line"><span style="color:#B5695999;--shiki-dark:#89DDFF">    &#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">importance</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">:</span><span style="color:#393A34;--shiki-dark:#82AAFF"> model</span><span style="color:#999999;--shiki-dark:#89DDFF">.</span><span style="color:#393A34;--shiki-dark:#F07178">feature_importances_</span></span>
+<span class="line"><span style="color:#999999;--shiki-dark:#89DDFF">}).</span><span style="color:#393A34;--shiki-dark:#82AAFF">sort_values</span><span style="color:#999999;--shiki-dark:#89DDFF">(</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#B56959;--shiki-dark:#C3E88D">importance</span><span style="color:#B5695999;--shiki-dark:#89DDFF">&#39;</span><span style="color:#999999;--shiki-dark:#89DDFF">,</span><span style="color:#B07D48;--shiki-dark:#BABED8;font-style:inherit;--shiki-dark-font-style:italic"> ascending</span><span style="color:#999999;--shiki-dark:#89DDFF">=</span><span style="color:#1E754F;--shiki-dark:#89DDFF">False</span><span style="color:#999999;--shiki-dark:#89DDFF">)</span></span></code></pre> 
+<hr/>
+<p><strong>End of Paper</strong></p>
+<p><em>Total Length: ~20 pages (including figures)</em>
+<em>Word Count: ~13,000</em>
+<em>Figures: 8 comprehensive visualizations</em>
+<em>Tables: 18</em>
+<em>Code Appendix: 3 snippets</em></p>
+<hr/>
+<h2 id="about-this-research">About This Research</h2>
+<p>This research was conducted to address the growing problem of cryptocurrency market manipulation in decentralized finance. The goal is to protect retail investors by providing early warning systems that can detect coordinated pump-and-dump schemes before significant harm occurs.</p>
+<p><strong>Key Takeaway</strong>: Machine learning can effectively detect market manipulation using only the first 30 seconds of trading data, achieving precision rates 7x better than random chance. While not perfect, this represents a significant step forward in protecting decentralized finance users.</p>
+<p>For questions, collaboration opportunities, or access to the codebase, please reach out through the contact information on this blog.</p></div><footer data-astro-cid-l3utfwjv><h2 class="font-bold text-lg dark:text-white mb-6" data-astro-cid-l3utfwjv>Related Posts</h2><section class="flex flex-col md:flex-row sm:justify-between gap-8"> <div class="flex flex-wrap gap-2"> <div class="min-h-full"> <img src="/_astro/gans.jKD2Rf7l_Z1GHrV1.webp" class="w-16 h-16 object-cover rounded-full  " alt="img of Demystifying GANs: How Machines Learn to Create" width="200" height="200" loading="lazy" decoding="async"> </div> <header class="flex justify-center items-center"> <a class="font-medium  hover:underline" href="/blog/post/demistifying/"> Demystifying GANs: How Machines Learn to Create </a> </header> </div><div class="flex flex-wrap gap-2"> <div class="min-h-full"> <img src="/_astro/rag_3.FAVJP6mj_SyKBL.webp" class="w-16 h-16 object-cover rounded-full  " alt="img of Retrieval-Augmented Generation: The Fusion of Retrieval and Generative AI" width="200" height="200" loading="lazy" decoding="async"> </div> <header class="flex justify-center items-center"> <a class="font-medium  hover:underline" href="/blog/post/rag/"> Retrieval-Augmented Generation: The Fusion of Retrieval and Generative AI </a> </header> </div><div class="flex flex-wrap gap-2"> <div class="min-h-full"> <img src="/_astro/reinforcement.dftYX6Y1_1ELJS1.webp" class="w-16 h-16 object-cover rounded-full  " alt="img of Reinforcement Learning: How Machines Learn Through Experience" width="200" height="200" loading="lazy" decoding="async"> </div> <header class="flex justify-center items-center"> <a class="font-medium  hover:underline" href="/blog/post/reinforcementlearning/"> Reinforcement Learning: How Machines Learn Through Experience </a> </header> </div> </section></footer></div></article></div> </div> </article>  </div> <footer class="flex justify-center items-center w-full px-16 h-28 border-t-2">
+&copy; 2025 Conite Gbodogbe. All rights reserved.
+</footer> </main>    </body> </html> 
